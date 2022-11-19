@@ -55,7 +55,7 @@ Please review the [Terraform Examples Documentation](terraform-deployment/exampl
 
 #### 🚀 Resources to be Deployed
 **AWS Amplify**
-- Web Application (Optional)
+- Web Application
   - `sample-App`
 
 **AWS AppSync**
