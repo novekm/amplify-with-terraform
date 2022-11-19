@@ -48,7 +48,7 @@ There are a number of AWS services used in this solution including:
 
 ### Terraform and CDK
 
-This solution can be deployed by leveraging **Terraform**. **AWS Cloud Development Kit (CDK)** support is coming in a future release [Terraform](https://terraform.io) is an open-source infrastructure as code software tool created by [HashiCorp](https://www.hashicorp.com/). [AWS CDK](https://aws.amazon.com/cdk/) is an AWS native Infrastructure as Code tool that enables you to define your cloud application resources using familiar programming languages such as Python, TypeScript, etc. Our custom Terraform module **`sample-qs`** abstracts away the vast majority of the coding. Variables are available for use to dynamically customize your deployment. The custom CDK stacks serve the same purpose.
+This solution can be deployed by leveraging **Terraform**. **AWS Cloud Development Kit (CDK)** support is coming in a future release. [Terraform](https://terraform.io) is an open-source infrastructure as code software tool created by [HashiCorp](https://www.hashicorp.com/). [AWS CDK](https://aws.amazon.com/cdk/) is an AWS native Infrastructure as Code tool that enables you to define your cloud application resources using familiar programming languages such as Python, TypeScript, etc. Our custom Terraform module **`sample-qs`** abstracts away the vast majority of the coding. Variables are available for use to dynamically customize your deployment. The custom CDK stacks serve the same purpose.
 
 
 Please review the [Terraform Examples Documentation](terraform-deployment/examples/README.md) for examples to use for deployment. The `main.tf` file at `/terraform-deployment/main.tf` also comes preloaded with a sample deployment.
