@@ -150,7 +150,7 @@ A pre-built AWS **AppSync GraphQL API** provides flexible querying for applicati
 
 ### AWS Amplify Sample Web Application
 
-An AWS Amplify application is deployed and hosted via Amazon Cloudfront and AWS Amplify. This is **enabled by default** as it is the intended use of this project, however, you can disable this and connect the backend resources to your own web application if you wish. For more information on the sample Amplify Application, see the [Sample Amplify App Documentation](/sample-sample-amplify-app/documentation/README.md)
+An AWS Amplify application is deployed and hosted via Amazon Cloudfront and AWS Amplify. This is **enabled by default** as it is the intended use of this project, however, you can disable this and connect the backend resources to your own web application if you wish. For more information on the sample Amplify Application, see the [Sample Amplify App Documentation](./sample-amplify-app/documentation/README.md)
 
 
 ### Sample Data Collection for Testing
