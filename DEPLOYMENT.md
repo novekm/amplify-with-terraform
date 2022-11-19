@@ -170,7 +170,7 @@ This Quickstart doesn’t require any software license or AWS Marketplace subscr
 
 ## How to Deploy - CHOOSE YOUR OWN ADVENTURE! 🚀
 
-As mentioned earlier, you can deploy this sample project using either [Terraform](terraform.io) or *(coming at a later date)* [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). We recommend use of VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrated with your existing infrastructure using AWS Organizations.
+As mentioned earlier, you can deploy this sample project using either [Terraform]([terraform.io](https://www.terraform.io/)) or *(coming at a later date)* [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). We recommend use of VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrated with your existing infrastructure using AWS Organizations.
 
 [Terraform Deployment Instructions](/terraform-deployment/README.md)
 <!-- [AWS CDK Deployment Instructions](/cdk-deployment/README.md) -->
