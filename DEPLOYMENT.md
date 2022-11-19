@@ -1,9 +1,9 @@
-# Automating Deployment of AWS Amplify Apps with Terraform and AWS CDK 🎉
+# Building Full-Stack React Web Applications with Cloudscape and AWS Amplify 🎉
 #### Created by:
 [Kevon Mayers](https://www.linkedin.com/in/kevonmayers)
-[Sam Ward Biddle](https://www.linkedin.com/in/sam-biddle/)
 
-![TCA architectural diagram](resources/terraform-aws-cdk.png)
+
+![Amplify logo large](resources/aws_amplify_logo_large.jpeg)
 
 This project is meant to serve as an example of have you can use Infrastructure as Code (IaC) with AWS Amplify for automated deployments at scale with multiple team members. To do this we are leveraging the **[AWS Amplify Libraries for JavaScript](https://docs.amplify.aws/lib/q/platform/js/)** - open-source client libraries that provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends.
 Here are some of the things you can add to your app by using the client libraries:
@@ -47,10 +47,9 @@ There are a number of AWS services used in this solution including:
 
 ### Terraform and CDK
 
-This solution can be deployed by leveraging either **Terraform** or **AWS Cloud Development Kit (CDK)** [Terraform](https://terraform.io) is an open-source infrastructure as code software tool created by [HashiCorp](https://www.hashicorp.com/). [AWS CDK](https://aws.amazon.com/cdk/) is an AWS native Infrastructure as Code tool that enables you to define your cloud application resources using familiar programming languages such as Python, TypeScript, etc. Our custom Terraform module **`sample-qs`** abstracts away the vast majority of the coding. Variables are available for use to dynamically customize your deployment. The custom CDK stacks serve the same purpose.
+This solution can be deployed by leveraging **Terraform**. **AWS Cloud Development Kit (CDK)** support is coming in a future release [Terraform](https://terraform.io) is an open-source infrastructure as code software tool created by [HashiCorp](https://www.hashicorp.com/). [AWS CDK](https://aws.amazon.com/cdk/) is an AWS native Infrastructure as Code tool that enables you to define your cloud application resources using familiar programming languages such as Python, TypeScript, etc. Our custom Terraform module **`sample-qs`** abstracts away the vast majority of the coding. Variables are available for use to dynamically customize your deployment. The custom CDK stacks serve the same purpose.
 
 
-#### Created by:
 Please review the [Terraform Examples Documentation](terraform-deployment/examples/README.md) for examples to use for deployment. The `main.tf` file at `/terraform-deployment/main.tf` also comes preloaded with a sample deployment.
 
 #### 🚀 Resources to be Deployed
@@ -110,6 +109,7 @@ Please review the [Terraform Examples Documentation](terraform-deployment/exampl
 
 **Amazon S3**
 - Buckets
+  - `sample_landing_bucket`
   - `sample_input_bucket`
   - `sample_output_bucket`
   - `sample_app_storage_bucket`
@@ -169,10 +169,10 @@ This Quickstart doesn’t require any software license or AWS Marketplace subscr
 
 ## How to Deploy - CHOOSE YOUR OWN ADVENTURE! 🚀
 
-As mentioned earlier, you can deploy this sample project using either [Terraform](terraform.io) or [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). We recommend use of VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrated with your existing infrastructure using AWS Organizations.
+As mentioned earlier, you can deploy this sample project using either [Terraform](terraform.io) or *(coming at a later date)* [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). We recommend use of VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrated with your existing infrastructure using AWS Organizations.
 
 [Terraform Deployment Instructions](/terraform-deployment/README.md)
-[AWS CDK Deployment Instructions](/cdk-deployment/README.md)
+<!-- [AWS CDK Deployment Instructions](/cdk-deployment/README.md) -->
 
 ## 👀 See also
 

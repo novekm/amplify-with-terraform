@@ -1,10 +1,11 @@
-# Amazon Transcribe Call Analytics (TCAQS) Amplify App Documentation
+<!-- TODO - Update screenshots that say TCA, add GitHub instructions -->
+# Sample Amplify App Documentation
 ### Created by [Kevon Mayers](https://www.linkedin.com/in/kevonmayers)
-![image info](./images/sample_101_page.png)
+![image info](/resources/app-screenshots/sample_amplify_app_dashboard.png)
 ## Introduction
-This sample app is used to serve as a demonstration for what you can do with the Amazon TCA Quickstart (TCAQS) core features. This code is meant to be used purely for development/demo purpose. For production workloads it is ***highly*** recommended that you do your own extensive internal testing before using.
+This sample app is used to serve as a demonstration for what you can do with the sample project's core features. This code is meant to be used purely for development/demo purpose. For production workloads it is ***highly*** recommended that you do your own extensive internal testing before using.
 
-This package sets up a React development environment that has access to all [Cloudscape](https://cloudscape.design/) React components. It comes with a sample application using Cloudscape to give a demo of what your own Amplify Application using TCAQS could look like. See [Getting started with Cloudscape](https://cloudscape.design/get-started/guides/introduction/).
+This package sets up a React development environment that has access to all [Cloudscape](https://cloudscape.design/) React components. It comes with a sample application using Cloudscape to give a demo of what your own Amplify Application using this sample project could look like. See [Getting started with Cloudscape](https://cloudscape.design/get-started/guides/introduction/).
 
 ## React + ViteJS
 
@@ -68,7 +69,7 @@ It is important to note that up to **9 IAM roles** and **1 IAM user** are create
 
 When users are added to the above groups, they have the respective permissions granted through the IAM roles (**`sample_cognito_admin_group_restricted_access`** or **`sample_cognito_standard_group_restricted_access`**). The standard permissions are restricted to what is necessary. However you can view/modify the IAM policies in **`/terraform-deployment/modules/sample-qs/iam.tf`**.
 
-***HINT***: Most resources launched by the using Terraform module will start with **`tca`** - this stands for **Transcribe Call Analytics**. When searching for resources deployed by Terraform for the quickstart, resources should begin with **`tca`** or include **`TCAQS`** in the resource name.
+***HINT***: Most resources launched by the using Terraform module will start with **`sample`**. When searching for resources deployed by Terraform for the quickstart, resources should begin with **`sample`** or include **`sample`** in the resource name.
 
 **Example:**
 ```sh
@@ -123,71 +124,63 @@ The values in **`outputs.json`** are also stored in [AWS Systems Manager Paramet
 You also may want to separate your backend and frontend into different repositories, in which case you would need to use the values in SSM parameter store, or through the environment variables passed into Amplify.
 
 5. Upon running **`npm run dev`** the dev server should be started and you should be able to access the Amazon Cognito login page on **`http://localhost:5173/`**. Enter your provided email address and paste in the TOTP that was sent to the email address.
-![image info](./images/sample_cognito_login.png)
-![image info](./images/sample_cognito_login_form_filled.png)
+![image info](/resources/app-screenshots/sample_amplify_app_cognito_sign_in.png)
 6. You will then be prompted to change your password
-![image info](./images/sample_cognito_change_password_blank.png)
+![image info](/resources/app-screenshots/sample_amplify_app_cognito_change_password_blank.png)
 7. Set a new password that conforms to the password policy
-![image info](./images/sample_cognito_change_password.png)
-8. Upon clicking **`Change Password`** you should be signed in and redirected to the TCA 101 Page.
-![image info](./images/sample_101_page.png)
+![image info](/resources/app-screenshots/sample_amplify_app_change_password.png)
+8. Upon clicking **`Change Password`** you should be signed in and redirected to the sample Amplify App Dashboard Page.
+![image info](/resources/app-screenshots/sample_amplify_app_dashboard.png)
 9. To test the pipeline, head to the **``Data Uploader``** page
-![image info](./images/sample_data_uploader_page.png)
+![image info](/resources/app-screenshots/sample_amplify_app_data_uploader_page.png)
 10. Select **`Add File`** to browse your device, and use one of the provided sample media files in `/resources/sample-media`. You'll see the file loaded to the upload window with the file name, type, and size.
 
 **REMINDER:** Uploaded files cannot have spaces in the filename.
-![image info](./images/sample_data_uploader_page_file_upload.png)
+![image info](/resources/app-screenshots/sample_amplify_app_data_uploader_page_file_upload.png)
 11. Click **`Upload`** upload the file. You should see a blue progress bar appear, and then a green success alert upon successful file upload.
-![image info](./images/sample_data_uploader_page_progress_bar.png)
-![image info](./images/sample_data_uploader_page_file_upload_success.png)
+![image info](/resources/app-screenshots/sample_amplify_app_data_uploader_page_progress_bar.png)
+![image info](/resources/app-screenshots/sample_amplify_app_data_uploader_page_file_upload_success.png)
 This is because you are signed in as a user in the `Admin` Cognito User Pool group. The role attached to that group allows for S3 upload. If you are not signed in as a user in the admin group, by default you will get an access denied error.
-![image info](./images/sample_data_uploader_page_file_upload_failure.png)
-11. Once the upload of the media file is successful, you can click the **`View TCA Jobs`** button, or **`TCA Jobs`** in the sidebar to navigate to the TCA Jobs page.
-![image info](./images/sample_jobs_page_empty.png)
-12. The TCA Job page is performing an async request leveraging the **AppSync GraphQL API** and a GraphQL resolver. The resolver points to the DynamoDB data source which is the **`sample_output`** DynamoDB table. It can take some time for the pipeline to run. The table will be empty until the metadata is written to DynamoDB. To check the progress, visit your Step Function in the AWS Console. You should see one state machine running.
+![image info](/resources/app-screenshots/sample_amplify_app_data_uploader_page_file_upload_failure.png)
+11. Once the upload of the media file is successful, you can click the **`View S3 Objects`** button, or **`S3 Objects`** in the sidebar to navigate to the S3 Objects page.
+![image info](/resources/app-screenshots/sample_amplify_app_s3_object_page_empty.png)
+12. The S3 Objects page is performing an async request leveraging the **AppSync GraphQL API** and a GraphQL resolver. The resolver points to the DynamoDB data source which is the **`sample_output`** DynamoDB table. It can take some time for the pipeline to run. The table will be empty until the metadata is written to DynamoDB. To check the progress, visit your Step Function in the AWS Console. You should see one state machine running.
 ![image info](./images/aws_console_search_for_sfn.png)
-![image info](./images/sample_stepfunctions_dashboard.png)
 13. Click on the hyperlink for the name of your state machine `sample-state-machine` to navigate to a details page for the state machine. You should see one execution and the status should also be `Running`.
-![image info](./images/sample_state_machine_dashboard.png)
 14. Click on the hyperlink for the name of the execution to go to a details page for the execution.
-![image info](./images/sample_state_machine_in_progress.png)
 Within a few minutes, the Step Function Workflow should complete successfully.
-![image info](./images/sample_state_machine_completed.png)
 15. Head to the DynamoDB console and click `Explore Items` for the `sample_output` table. You should see the Amazon Transcribe Call Analytics metadata in your table.
 ![image info](./images/dynamodb_console_search.png)
 ![image info](./images/dynamodb_dashboard.png)
 ![image info](./images/dynamodb_items.png)
 
-16. Head back to the Amplify Application and refresh the `TCA Jobs` page. You should see the same data in the table. This is being fetched directly through the AppSync GraphQL API.
-![image info](./images/sample_jobs_page_1_item.png)
+16. Head back to the Amplify Application and refresh the `S3 Objects` page. You should see the same data in the table. This is being fetched directly through the AppSync GraphQL API.
+![image info](/resources/app-screenshots/sample_amplify_app_s3_objects_page_1_item.png)
 17. ✅ You have successfully uploaded a file, tested the pipeline, and fetch the data though the GraphQL API! 🎉
 
-**IMPORTANT:** If your TCA Jobs table remains displaying **`Loading S3 Objects...`** with a spinner, it is most likely because you do not have access to the API.
-![image info](./images/sample_jobs_page_loading.png)
+**IMPORTANT:** If your S3 Objects table remains displaying **`Loading S3 Objects...`** with a spinner, it is most likely because you do not have access to the API.
+![image info](/resources/app-screenshots/sample_amplify_app_s3_objects_page_loading.png)
 
 Currently the API actions are restricted to the **`Admin`** and **`Standard`** Cognito User Pool Groups. This is noted by the line **` @aws_auth(cognito_groups: ["Admin", "Standard"])`** in the GraphQL schema.
 
 **Schema:**
 ```hcl
-type Job  @aws_auth(cognito_groups: ["Admin", "Standard"])  {
-  JobName: String!
-  AccountId: String
-  Categories: AWSJSON
-  Channel: String
-  ContentMetadata: AWSJSON
-  ConversationCharacteristics: AWSJSON
-  JobStatus: String
-  LanguageCode: String
-  Participants: AWSJSON
-  Transcript: AWSJSON
-  CreatedAt: String
-  CompletedAt: String
+type Object  @aws_auth(cognito_groups: ["Admin", "Standard"])  {
+  ObjectId: String!
+  Version: String
+  DetailType: String
+  Source: String
   FilePath: String
-  SampleRate: String
-  MediaFormat: String
+  AccountId: String
+  CreatedAt: String
+  Region: String
+  CurrentBucket: String
+  OriginalBucket: String
+  ObjectSize: Int
+  SourceIPAddress: String
+  LifecycleConfig: String
 ```
-If the user you are signed in as is not in either of the provided user pool groups, you will not be able to use the API and will receive this error in your brower's console:
-![image info](./images/sample_api_unauthorized_error.png)
+If the user you are signed in as is not in either of the provided user pool groups, you will not be able to use the API and will receive an 'unauthorized' error.
 
 
  Access to the API can be modified by editing the GraphQL schema to fit your needs. You could remove the `@aws_auth` line completely and **all** users logged into your cognito user pool would be able to access the API, or you could add additional groups as necessary by adding another string in the array.
@@ -226,7 +219,7 @@ This method will mirror your GitLab repository to AWS CodeCommit. When you push 
 6. Select the radial button next to the `sample_codecommit_repo` and click the `Clone URL` button. A dropdown will appear. Select `Clone HTTPS` (**NOT** Clone HTTPS(GRC)). This will copy your HTTPS repo clone URL to your clipboard. You'll need this to set up GitLab mirroring. You should receive a success message upon clicking.
 ![image info](./images/codecommit_clone_https.png)
 ![image info](./images/codecommit_copy_https_clone_url.png)
-7. In a new tab, navigate to your GitLab repository that you wish to clone. This is most likely the same repo that you cloned the TCA Quickstart to.
+7. In a new tab, navigate to your GitLab repository that you wish to clone. This is most likely the same repo that you cloned the sample project to.
 8. On the left sidebar, select **Settings > Repository**, and then click to expand **Mirroring repositories**.
 9. Fill in the **Git repository URL** field with this format:
 **`https://<your_aws_git_username>@git-codecommit.<aws-region>.amazonaws.com/v1/repos/<your_codecommit_repo>`**
@@ -238,21 +231,20 @@ Replace `<your_aws_git_username>` with the **AWS HTTPS Git user name** that you 
 **`https://*****:*****@git-codecommit.<aws-region>.amazonaws.com/v1/repos/<your_codecommit_repo>`**
 14. To test mirroring by forcing a push, select **Update now** (the half-circle arrows). If **Last successful update** shows a date, you have configured mirroring correctly. If it isn't working correctly, a red `error` tag appears and shows the error message as hover text.
 15. Navigate to the AWS Amplify console and click on the **`sample-App`** You should see the app in the `Provision` phase.
-![image info](./images/aws_amplify_console_search.png)
-![image info](./images/aws_amplify_sample_app.png)
-![image info](./images/aws_amplify_sample_app_provision.png)
+![image info](/sample-amplify-app/documentation/images/aws_amplify_console_search.png)
+![image info](/sample-amplify-app/documentation/images/aws_amplify_tca_app.png)
+![image info](/sample-amplify-app/documentation/images/aws_amplify_tca_app_provision.png)
 16. After a few minutes, all the phases (`Build`, `Deploy`, `Verify`) should turn to green check marks.
-![image info](./images/aws_amplify_sample_app_successful_deploy.png)
+![image info](/sample-amplify-app/documentation/images/aws_amplify_tca_app_successful_deploy.png)
 
 17. Click on the hyperlink for your amplify app and it should open in a new tab.
 18. Sign in with your credentials and you should be logged into the application.
 19. If this was your first time signing into the application, you need to use the **TOTP** (Time-based One Time Password) sent to your provided email address. You'll be prompted to change your password, then will be able to sign in.
 20. ✅ You should successfully have been signed in to your web application, and it is now running in the AWS Cloud! 🎉
-![image info](./images/sample_amplify_app_hosted.png)
+![image info](/resources/app-screenshots/sample_amplify_app_dashboard.png)
 
 **Note:** A dev branch was also set up for you. You can disable this if you wish, but it is recommended to use different environments (prod, dev, staging, test, etc.)
 
 **Troubleshooting:** If your build fails, check your Amplify configuration file at `/sample-sample-amplify-app/src/config/amplify-config.js` and your Amplify buildspec file at `/amplify.yml`. Ensure your buildspec file is pointing at the correct directory. If you change the location of the sample amplify application, you will need to modify your buildspec file accordingly.
 
--
 - AWS S3 Upload Customization: https://docs.amplify.aws/lib/storage/upload/q/platform/js/

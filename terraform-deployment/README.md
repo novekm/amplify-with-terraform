@@ -38,33 +38,30 @@ git clone #insert-http-or-ssh-for-this-repository
 ### 2/ Prepare your Terraform environment
 
 1. Navigate to **`terraform-deployment/main.tf`**
-2. The `main.tf` file comes preloaded with a template for deployment. Simply modify the relevant values. You can also use one of the example templates in **`terraform-deployment/examples`** to set up your `main.tf` file. Please read the custom `sample-qs` [module documentation](/terraform-deployment/modules/sample-qs/README.md) and the general [Terraform Documentation](/terraform-deployment/README.md) for more information.
+2. The `main.tf` file comes preloaded with a template for deployment. Simply modify the relevant values. You can also use one of the example templates in **`terraform-deployment/examples`** to set up your `main.tf` file. Please read the custom `sample-module` [module documentation](/terraform-deployment/modules/sample-qs/README.md) and the general [Terraform Documentation](/terraform-deployment/README.md) for more information.
 
 **Example `main.tf`**:
-```hcl
+```go
 module "sample-qs" {
   // location of the module - can be local or git repo
-  source = "./modules/sample-qs"
-
-  # SNS
-  sample_sns_email_endpoint = "yusuke@spiritgun.com"
+  source = "./modules/sample-module"
 
   # - Cognito -
   # Admin Users to create
   sample_admin_cognito_users = {
     NarutoUzumaki : {
-      username       = "nuzumaki"
-      given_name     = "Naruto"
-      family_name    = "Uzumaki"
-      email          = "naruto@rasengan.com"
-      email_verified = true
+      username       = "admin"
+      given_name     = "Default"
+      family_name    = "Admin"
+      email          = "novekm@amazon.com"
+      email_verified = true // no touchy
     },
     SasukeUchiha : {
-      username       = "suchiha"
-      given_name     = "Sasuke"
-      family_name    = "Uchiha"
-      email          = "sasuke@chidori.com"
-      email_verified = true
+      username       = "kmayers"
+      given_name     = "Kevon"
+      family_name    = "Mayers"
+      email          = "kevonmayers31@gmail.com"
+      email_verified = true // no touchy
     }
   }
   # Standard Users to create
@@ -73,17 +70,17 @@ module "sample-qs" {
       username       = "default"
       given_name     = "Default"
       family_name    = "User"
-      email          = "example@example.com"
-      email_verified = false
+      email          = "kevon_mayers@yahoo.com"
+      email_verified = true // no touchy
     }
   }
 
 }
 ```
 
-#### **sample-QS Module Variables**
+#### **```sample-module``` Variables**
 
-A full list of the module variables is in the [module documentation](./terraform-deployment/modules/sample-qs/README.md). All variables have default values set based on the function of the Quickstart. These can be modified to customize your deployment. See [this document](./terraform-deployment/README.md) for more information.
+A full list of the module variables is in the [module documentation](/terraform-deployment/modules/sample-module/README.md). All variables have default values set based on the function of the Quickstart. These can be modified to customize your deployment. See [this document](./terraform-deployment/README.md) for more information.
 
 
 **Amplify Web Application Note:** If you choose to deploy the Amplify Web Application make sure you review [web application documentation](/sample-amplify-app/documentation/README.md).
@@ -112,7 +109,7 @@ terraform plan
 
 ### 4/ Deploy the application
 
--  **NOTE**: All resources deployed using the custom Terraform Module **`sample-qs`** will have the tags **`IAC_PROVIDER = Terraform`** and **`AppName = sample-App`**. You can add additional tags in the module's relevant service `.tf` resource files if you wish ( `s3.tf`, `dynamodb.tf`, `iam.tf`, etc.). The Terraform `merge()` function will merge your additional tags with the default tags specified in the module's **`variables.tf`** file. Deployed resources will also start with the prefix **`tca`** for ease of visibility.
+-  **NOTE**: All resources deployed using the custom Terraform Module **`sample-module`** will have the tags **`IAC_PROVIDER = Terraform`** and **`AppName = sample-App`**. You can add additional tags in the module's relevant service `.tf` resource files if you wish ( `s3.tf`, `dynamodb.tf`, `iam.tf`, etc.). The Terraform `merge()` function will merge your additional tags with the default tags specified in the module's **`variables.tf`** file. Deployed resources will also start with the prefix **`tca`** for ease of visibility.
 
 **Example:**
 ```go
@@ -143,7 +140,7 @@ If you are reading this it is because you deployed the Amazon TCA Quickstart Web
 1. To deploy the full Amplify Application with Amplify Hosting in AWS, you must connect your repository to the Amplify App. The Quickstart supports 3 ways to do this:
 - **Mirror your GitLab repo to AWS CodeCommit**. Push events will trigger the Amplify App to build in AWS. You can specify which branches you wish to trigger the build, by default it will be the main branch. See [setting up GitLab to CodeCommit Mirroring](https://docs.gitlab.com/ee/user/project/repository/mirror/push.html) and the [Amplify App documentation](/sample-sample-amplify-app/documentation/README.md) for more information.
 - **Use your GitHub Personal Access Token**. You can alternatively use a GitHub personal access token to give Amplify access to your GitHub repository. See the [Amplify App Documentation](/sample-sample-amplify-app//documentation/README.md) and [Setting up the Amplify GitHub App for AWS CloudFormation, CLI, and SDK deployments](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html) for more information
-- **Use an existing AWS CodeCommit Repo**. You can also use an existing AWS CodeCommit repository and directly push to that to trigger the build. Just ensure that the Amplify App has access to your CodeCommit repo via the generated IAM Role. See the [Amplify App Documentation](/sample-sample-amplify-app//documentation/README.md) for more information.
+- **Use an existing AWS CodeCommit Repo**. You can also use an existing AWS CodeCommit repository and directly push to that to trigger the build. Just ensure that the Amplify App has access to your CodeCommit repo via the generated IAM Role. See the [Amplify App Documentation](/sample-amplify-app/documentation/README.md) for more information.
 
 2. Push your code to the repo. This will trigger Amplify to start the build of your Amplify App following the buildspec defined at `/amplify.yml`
 
@@ -153,7 +150,7 @@ If you are reading this it is because you deployed the Amazon TCA Quickstart Web
 
 ✅ Success! At this point, you should successfully have the Amplify app working.
 
-For detailed instructions, see the [Amplify App Documentation](/sample-sample-amplify-app//documentation//README.md).
+For detailed instructions, see the [Amplify App Documentation](/sample-amplify-app/documentation/README.md).
 
 
 ## 🗑 How to Destroy
@@ -178,9 +175,9 @@ terraform destroy --target aws_s3_bucket.sample_quicksight_bucket
 The Terraform module has a number of outputs that you can reference to integrate the deployment into your existing infrastructure, or expand what is deployed by the module. These outputs are defined in the `outputs.tf` file in **`/terraform-deployment/modules/sample-qs/outputs.tf`**. These outputs are being used to dynamically configure the Amplify Application without using the Amplify CLI. To learn more about how this is being done, visit the [Amplify App Documentation](/sample-sample-amplify-app//documentation/README.md). Take a look at [this document](https://www.terraform.io/language/values/outputs) to learn more about [Terraform outputs](https://www.terraform.io/language/values/outputs). For a list of all outputs, visit the [sample-qs module documentation](/terraform-deployment//modules/sample-qs/README.md).
 
 
-## Extending Amazon TCA Quickstart
+## Extending this sample Quickstart
 
-If you are looking to utilize existing features of TCAQS while integrating your own features, modules, or applications, please feel free to submit issues that describe use-cases you would like to be documented.
+If you are looking to utilize existing features of this sample project while integrating your own features, modules, or applications, please feel free to fork this repo and download locally and make changes to fit your use case.
 
 
 Helpful Commands
