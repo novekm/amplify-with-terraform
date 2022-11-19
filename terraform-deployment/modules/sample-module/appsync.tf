@@ -69,7 +69,6 @@ EOF
 
 # Resolvers
 # UNIT type resolver (default)
-
 # Query - Get One Object
 resource "aws_appsync_resolver" "sample_appsync_resolver_query_get_one_object" {
   api_id = aws_appsync_graphql_api.sample_appsync_graphql_api.id
