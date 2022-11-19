@@ -16,6 +16,7 @@ Here are some of the things you can add to your app by using the client librarie
 - [AI/ML](https://docs.amplify.aws/lib/predictions/getting-started/q/platform/js/)
 - [PubSub](https://docs.amplify.aws/lib/pubsub/getting-started/q/platform/js/)
 - [AR/VR](https://docs.amplify.aws/lib/xr/getting-started/q/platform/js/)
+
 Sample data is ingested through the **Landing Zone S3 Bucket**, and can be ingested from any service within or connected to the AWS cloud. For the sake of this demo, example files are in the repo in the **`resources/sample-media`** directory.
 
 ## 🛠 What you will build
