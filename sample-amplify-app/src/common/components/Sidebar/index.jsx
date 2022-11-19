@@ -36,7 +36,7 @@ const Sidebar = () => {
           text: 'Getting Started',
           expanded: true,
           items: [
-            { type: 'link', text: 'Sample Home Page', href: '/sample-101' },
+            { type: 'link', text: 'Getting Started', href: '/getting-started' },
             // { type: 'link', text: 'Setup Guide', href: '/setup-guide' },
             // { type: 'link', text: 'Case Studies', href: '/case-studies' },
           ],

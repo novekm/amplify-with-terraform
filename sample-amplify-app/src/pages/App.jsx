@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /** **********************************************************************
                             DISCLAIMER
 
@@ -15,7 +16,7 @@ import { Route, Routes, Link, useParams } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import Dashboard from './Dashboard';
-import SampleHomePage from './SampleHomePage';
+import GettingStarted from './GettingStarted';
 import SetupGuide from './SetupGuide';
 import DataUploader from './DataUploader';
 import AccountSettings from './AccountSettings';
@@ -48,8 +49,8 @@ const App = ({ signOut, user }) => {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/sample-101" element={<SampleHomePage />} />
-        <Route path="/setup-guide" element={<SetupGuide />} />
+        <Route path="/getting-started" element={<GettingStarted />} />
+        {/* <Route path="/setup-guide" element={<SetupGuide />} /> */}
         <Route path="/data-uploader" element={<DataUploader />} />
         <Route path="/account-settings" element={<AccountSettings />} />
         <Route path="/s3-objects" element={<S3Objects />} />

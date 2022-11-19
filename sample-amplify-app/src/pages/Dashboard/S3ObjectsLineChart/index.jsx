@@ -22,7 +22,7 @@ export const EmissionsLineChart = () => {
         header={
           <Header
             variant="h2"
-            description="Incoming and outgoing network traffic"
+            description="Incoming and outgoing network traffic. Sample Data for example of component use)."
           >
             Network traffic
           </Header>

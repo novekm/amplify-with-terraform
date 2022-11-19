@@ -523,11 +523,11 @@ variable "sample_sfn_state_generate_uuid_name" {
 # }
 variable "sample_sfn_state_generate_uuid_next_step" {
   type    = string
-  default = "GetTCAInputFile"
+  default = "GetSampleInputFile"
 
 }
 
-# GetTCAInputFile
+# GetInputFile
 variable "create_sample_sfn_state_get_sample_input_file" {
   type        = bool
   default     = true

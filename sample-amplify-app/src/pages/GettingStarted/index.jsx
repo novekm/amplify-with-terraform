@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /** **********************************************************************
                             DISCLAIMER
 
@@ -33,7 +34,7 @@ import awsLogo from '../../public/images/AWS_logo_RGB_REV.png';
 import iacBasicArch from '../../../../resources/architecture/IAC_SAMPLE_ARCH.png';
 import iacAdvancedArch from '../../../../resources/architecture/IAC_ADVANCED_ARCH.png';
 
-const SampleHomePage = () => {
+const GettingStarted = () => {
   return (
     <AppLayout
       navigation={<Sidebar activeHref="#/" />}
@@ -47,7 +48,7 @@ const SampleHomePage = () => {
   );
 };
 
-export default SampleHomePage;
+export default GettingStarted;
 
 const Content = () => {
   return (
@@ -86,7 +87,7 @@ const Content = () => {
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://aws.amazon.com/transcribe/call-analytics/"
+                      href="https://aws.amazon.com/amplify/"
                     >
                       here
                     </a>{' '}
@@ -99,11 +100,11 @@ const Content = () => {
           </Grid>
         </div>
 
-        {/* Start How it works section */}
+        {/* Start 'This project is buit' section */}
         <Box margin="xxl" padding="l">
           <SpaceBetween size="l">
             <div>
-              {/* <h1>Automated Deployment of AWS Amplify with IaC</h1> */}
+              <h1>Getting Started</h1>
               <Container>
                 <div>
                   <p>

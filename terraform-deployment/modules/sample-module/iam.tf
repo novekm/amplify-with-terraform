@@ -154,7 +154,7 @@ data "aws_iam_policy_document" "sample_amplify_trust_relationship" {
 
 # --- CUSTOMER MANAGED POLICIES (RESTRICTED ACCESS) ---
 # - S3 Policies-
-# S3 Customer Managed Policy (Restricted Access)
+# S3 Customer Managed Policy (Restricted Access) - Admin
 data "aws_iam_policy_document" "sample_s3_restricted_access_policy" {
   count = var.create_restricted_access_roles ? 1 : 0
   statement {
@@ -398,7 +398,7 @@ resource "aws_iam_role" "sample_cognito_standard_group_restricted_access" {
   description        = "Role granting restricted (read-only) DynamoDB permissions for the sample_outputs DynamoDB table."
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
-    aws_iam_policy.sample_s3_restricted_access_policy[0].arn,
+    "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
     aws_iam_policy.sample_dynamodb_restricted_access_read_only_policy[0].arn
   ]
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
@@ -585,8 +586,7 @@ const Content = ({ user }) => {
         s3Objects={s3Objects}
         s3ObjectSizeSum={filteredS3ObjectsTotalSumGB2022}
       />
-      <ServiceHealth />
-      <EmissionsBarChart />
+      <EmissionsBarChart s3ObjectsMonthlyTotal={filteredS3ObjectsTotal2022} />
       <EmissionsLineChart />
     </>
   );
@@ -621,7 +621,7 @@ export const ToolsContent = () => (
           {/* <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/energy/"
-              text="TBD - Amazon TCAQS Blog Post"
+              text="TBD - Full Stack React Web Apps Blog Post"
             />
           </li> */}
           <li>

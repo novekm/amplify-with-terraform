@@ -380,8 +380,7 @@ const Content = () => {
                   header={
                     <Header
                       variant="h1"
-                      description="Add the file you want to upload to S3. To upload a file larger than 160GB, use the AWS CLI, AWS SDK or Amazon S3 REST API.
-            Supported file formats are AMR, FLAC, MP3, WAV, OGG, and WEBM."
+                      description="Add the file you want to upload to S3. To upload a file larger than 160GB, use the AWS CLI, AWS SDK or Amazon S3 REST API."
                     >
                       Upload
                     </Header>
@@ -488,8 +487,7 @@ export const ToolsContent = () => (
   >
     <p>
       Select 'Add file' to upload your data. To upload a file larger than 160GB,
-      use the AWS CLI, AWS SDK or Amazon S3 REST API. Supported file formats are
-      AMR, FLAC, MP3, WAV, OGG, and WEBM.
+      use the AWS CLI, AWS SDK or Amazon S3 REST API.
     </p>
   </HelpPanel>
 );

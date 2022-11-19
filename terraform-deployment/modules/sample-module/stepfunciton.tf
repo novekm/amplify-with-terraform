@@ -31,7 +31,7 @@ resource "aws_sfn_state_machine" "sample_sfn_state_machine" {
         CopyToAppStorage = {
           Type       = "Task",
           Resource   = "arn:aws:states:::aws-sdk:s3:copyObject",
-          ResultPath = "$.getTCAJobOutput"
+          ResultPath = "$.getS3Output"
           Parameters = {
             Bucket         = "${aws_s3_bucket.sample_app_storage_bucket.id}",
             "Key.$"        = "States.Format('{}-{}',$.detail.object.key, $.id)",                                        // reference object key from InputPath and add uuid
@@ -48,7 +48,7 @@ resource "aws_sfn_state_machine" "sample_sfn_state_machine" {
       #     Parameters = {
       #       ResultSelector = {
       #         "fileMetadata.$" = "$.CallAnalyticsJob",
-      #         "fileContent.$"  = "States.StringToJson($.getTCAJobMetadata.Body)",
+      #         "fileContent.$"  = "States.StringToJson($.getS3ObjectMetadata.Body)",
       #       }
       #     }
       #     Next = "WriteToDynamoDB"
@@ -119,9 +119,9 @@ resource "aws_sfn_state_machine" "sample_sfn_state_machine" {
       },
 
 
-      # # - TCAFailSNS -
+      # # - FailSNS -
       # {
-      #   TCAFailSNS = {
+      #   FailSNS = {
       #     Type     = "Task",
       #     Resource = "arn:aws:states:::aws-sdk:sns:publish"
       #     # Resource = "arn:aws:states:::sns:publish"
