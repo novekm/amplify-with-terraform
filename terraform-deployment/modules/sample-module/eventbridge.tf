@@ -1,7 +1,9 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule
 
+resource "random_uuid" "sample_event_bus_uuid" {
+}
 resource "aws_cloudwatch_event_bus" "sample_event_bus" {
-  name = "sample_event_bus"
+  name = "sample_event_bus-${random_uuid.sample_event_bus_uuid.result}"
   tags = merge(
     {
       "AppName" = var.app_name
