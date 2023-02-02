@@ -525,6 +525,7 @@ resource "aws_iam_role" "sample_step_functions_master_restricted_access" {
 # Amplify
 
 resource "aws_iam_role" "sample_amplify_codecommit" {
+  count = var.sample_create_codecommit_repo ? 1 : 0
   name                = "sample_amplify_codecommit"
   assume_role_policy  = data.aws_iam_policy_document.sample_amplify_trust_relationship.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/AWSCodeCommitReadOnly"]
