@@ -1,6 +1,3 @@
-# QUESTION - Do we need this? Amplify is closely linked to CLI. Could we just have
-# separate instructions for the Amplify deployment after the infrastructure is in place?
-# Could relevant values just be copied and pasted from Terraform outputs?
 # Relevant values:
 # - AWS Region
 # - Cognito User Pool ID
@@ -18,8 +15,8 @@ resource "aws_amplify_app" "sample_app" {
   enable_branch_auto_build = true
 
   # OPTIONAL - Necessary if not using oauth_token or access_token (used for GitLab and GitHub repos)
-  iam_service_role_arn = aws_iam_role.sample_amplify_codecommit.arn
-  access_token         = var.lookup_ssm_github_access_token ? data.aws_ssm_parameter.ssm_github_access_token[0].name : var.github_access_token // optional, only needed if using github repo
+  iam_service_role_arn = var.sample_create_codecommit_repo ? aws_iam_role.sample_amplify_codecommit[0].arn : null
+  access_token         = var.lookup_ssm_github_access_token ? data.aws_ssm_parameter.ssm_github_access_token[0].value : var.github_access_token // optional, only needed if using github repo
 
   build_spec = file("${path.root}/../amplify.yml")
   # Redirects for Single Page Web Apps (SPA)
@@ -31,8 +28,8 @@ resource "aws_amplify_app" "sample_app" {
   }
 
   environment_variables = {
-    sample_REGION              = "${data.aws_region.current.id}"
-    sample_CODECOMMIT_REPO_ID  = "${aws_codecommit_repository.sample_codecommit_repo[0].repository_id}"
+    sample_REGION = "${data.aws_region.current.id}"
+    sample_CODECOMMIT_REPO_ID  = "${var.sample_create_codecommit_repo ? aws_codecommit_repository.sample_codecommit_repo[0].repository_id : null}" //return null if no cc repo is created
     sample_USER_POOL_ID        = "${aws_cognito_user_pool.sample_user_pool.id}"
     sample_IDENTITY_POOL_ID    = "${aws_cognito_identity_pool.sample_identity_pool.id}"
     sample_APP_CLIENT_ID       = "${aws_cognito_user_pool_client.sample_user_pool_client.id}"
