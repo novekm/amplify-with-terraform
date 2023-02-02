@@ -184,7 +184,7 @@ const Content = () => {
               type: 'success',
               content: `File: ${files.name} has been successfully uploaded.`,
               action: (
-                <Button onClick={() => navigate('/emissions-records')}>
+                <Button onClick={() => navigate('/s3-objects')}>
                   View S3 Objects
                 </Button>
               ), // TODO - make this nav to TCA jobs page
