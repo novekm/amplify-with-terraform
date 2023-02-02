@@ -7,6 +7,11 @@ resource "random_uuid" "sample_file_uuid" {
 }
 
 resource "aws_sfn_state_machine" "sample_sfn_state_machine" {
+  # // prevents timeout error for deletion of sfn state machine
+  # // this operation can take a while to complete
+  # timeouts {
+  #   delete = "20m"
+  # }
   name     = var.sample_sfn_state_machine_name
   role_arn = aws_iam_role.sample_step_functions_master_restricted_access[0].arn
   definition = jsonencode({
