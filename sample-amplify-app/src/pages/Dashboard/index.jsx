@@ -567,7 +567,7 @@ const Content = ({ user }) => {
               />
               <div className="custom-home__header-title">
                 <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                  Hello, {user.attributes.given_name} 👋
+                  Hi, {user.attributes.given_name} 👋
                 </Box>
                 <Box
                   fontSize="heading-l"
