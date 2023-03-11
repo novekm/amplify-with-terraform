@@ -64,7 +64,8 @@ const S3Objects = () => {
       breadcrumbs={<Breadcrumbs />} // define these values in /breadcrumbs/index.js
       content={
         <S3ObjectsTable
-          columnDefinitions={columnDefinitions} // define these values in /TCAJobsTable/table-property-filter-config.jsx
+          // define these values in /S3Objects/S3ObjectsTable/table-property-filter-config.jsx
+          columnDefinitions={columnDefinitions}
           saveWidths={saveWidths}
           updateTools={() => setToolsOpen(true)}
         />
