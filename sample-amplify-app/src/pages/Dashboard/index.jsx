@@ -62,7 +62,8 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsLogo from '../../public/images/AWS_logo_RGB_REV.png';
 
 import { API, graphqlOperation } from 'aws-amplify';
-import { getOneObject, getAllObjects } from '../../graphql/queries';
+// import { getOneObject, getAllObjects } from '../../graphql/queries';
+import { getObject, listObjects } from '../../graphql/queries';
 
 const Dashboard = ({ user }) => {
   return (
@@ -97,6 +98,7 @@ const Content = ({ user }) => {
     Version: s3Object.Version,
     DetailType: s3Object.DetailType,
     Source: s3Object.Source,
+    FileName: s3Object.FileName,
     FilePath: s3Object.FilePath,
     AccountId: s3Object.AccountId,
     CreatedAt: s3Object.CreatedAt,
@@ -514,9 +516,9 @@ const Content = ({ user }) => {
   const fetchS3Objects = async () => {
     try {
       const s3ObjectData = await API.graphql(
-        graphqlOperation(getAllObjects, { limit: 10000 })
+        graphqlOperation(listObjects, { limit: 10000 })
       );
-      const s3ObjectsDataList = s3ObjectData.data.getAllObjects.items;
+      const s3ObjectsDataList = s3ObjectData.data.listObjects.items;
       console.log('S3 Object List', s3ObjectsDataList);
       setS3Objects(s3ObjectsDataList);
     } catch (error) {

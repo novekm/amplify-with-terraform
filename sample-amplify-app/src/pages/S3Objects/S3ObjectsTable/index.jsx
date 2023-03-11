@@ -23,12 +23,7 @@ import {
 } from '@cloudscape-design/components';
 
 import { API, graphqlOperation } from 'aws-amplify';
-import {
-  getAllObjects,
-  getAllObjectsPaginated,
-  getOneObject,
-} from '../../../graphql/queries';
-import { deleteOneJob } from '../../../graphql/mutations';
+import { listObjects, getObject } from '../../../graphql/queries';
 
 import { getFilterCounterText } from '../../../common/resources/tableCounterStrings';
 import { FullPageHeader, S3ObjectsTableEmptyState } from '..';
@@ -60,7 +55,7 @@ const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
   const [s3Objects, setS3Objects] = useState([]);
   // const [selectedTranscripts, setSelectedTranscripts] = useState([]);
 
-  const [distributions, setDistributions] = useState([]);
+  // const [distributions, setDistributions] = useState([]);
   const [preferences, setPreferences] = useLocalStorage(
     'React-TCAJobsTable-Preferences',
     DEFAULT_PREFERENCES
@@ -100,9 +95,9 @@ const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
   const fetchS3Objects = async () => {
     try {
       const s3ObjectData = await API.graphql(
-        graphqlOperation(getAllObjects, { limit: 10000 })
+        graphqlOperation(listObjects, { limit: 10000 })
       );
-      const s3ObjectsDataList = s3ObjectData.data.getAllObjects.items;
+      const s3ObjectsDataList = s3ObjectData.data.listObjects.items;
       console.log('S3 Object List', s3ObjectsDataList);
       setS3Objects(s3ObjectsDataList);
       setLoading(false);
