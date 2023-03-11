@@ -1,14 +1,14 @@
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
+// /* eslint-disable */
 
-export const getAllObjects = /* GraphQL */ `
-  query GetAllObjects($limit: Int, $nextToken: String) {
-    getAllObjects(limit: $limit, nextToken: $nextToken) {
+export const listObjects = /* GraphQL */ `
+  query ListObjects($limit: Int, $nextToken: String) {
+    listObjects(limit: $limit, nextToken: $nextToken) {
       items {
         ObjectId
         Version
         DetailType
         Source
+        FileName
         FilePath
         AccountId
         CreatedAt
@@ -23,35 +23,15 @@ export const getAllObjects = /* GraphQL */ `
     }
   }
 `;
-export const getAllObjectsPaginated = /* GraphQL */ `
-  query GetAllObjectsPaginated($limit: Int, $nextToken: String) {
-    getAllObjectsPaginated(limit: $limit, nextToken: $nextToken) {
-      items {
-        ObjectId
-        Version
-        DetailType
-        Source
-        FilePath
-        AccountId
-        CreatedAt
-        Region
-        CurrentBucket
-        OriginalBucket
-        ObjectSize
-        SourceIPAddress
-        LifecycleConfig
-      }
-      nextToken
-    }
-  }
-`;
-export const getOneObject = /* GraphQL */ `
-  query GetOneObject($ObjectId: String!) {
-    getOneObject(ObjectId: $ObjectId) {
+
+export const getObject = /* GraphQL */ `
+  query GetObject($ObjectId: String!) {
+    getObject(ObjectId: $ObjectId) {
       ObjectId
       Version
       DetailType
       Source
+      FileName
       FilePath
       AccountId
       CreatedAt

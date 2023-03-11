@@ -30,6 +30,7 @@ type Object  @aws_auth(cognito_groups: ["Admin", "Standard"])  {
   Version: String
   DetailType: String
   Source: String
+  FileName: String
   FilePath: String
   AccountId: String
   CreatedAt: String
@@ -41,7 +42,7 @@ type Object  @aws_auth(cognito_groups: ["Admin", "Standard"])  {
   LifecycleConfig: String
 }
 
-type ObjectPaginated {
+type Objects {
   items: [Object]
   nextToken: String
   @aws_auth(cognito_groups: ["Admin", "Standard"])
@@ -49,9 +50,8 @@ type ObjectPaginated {
 
 
 type Query {
-  getAllObjects(limit: Int, nextToken: String): ObjectPaginated @aws_auth(cognito_groups: ["Admin", "Standard"])
-  getAllObjectsPaginated(limit: Int, nextToken: String): ObjectPaginated @aws_auth(cognito_groups: ["Admin", "Standard"])
-  getOneObject(ObjectId: String!): Object @aws_auth(cognito_groups: ["Admin", "Standard"])
+  listObjects(limit: Int, nextToken: String): Objects @aws_auth(cognito_groups: ["Admin", "Standard"])
+  getObject(ObjectId: String!): Object @aws_auth(cognito_groups: ["Admin", "Standard"])
   }
 
 type Mutation {
@@ -69,12 +69,12 @@ EOF
 
 # Resolvers
 # UNIT type resolver (default)
-# Query - Get One Object
-resource "aws_appsync_resolver" "sample_appsync_resolver_query_get_one_object" {
+# Query - Get Object
+# Returns data from one object specificied by 'ObjectId'
+resource "aws_appsync_resolver" "sample_appsync_resolver_query_get_object" {
   api_id = aws_appsync_graphql_api.sample_appsync_graphql_api.id
-  field  = "getOneObject"
+  field  = "getObject"
   type   = "Query"
-  # data_source = [aws_appsync_datasource.sample_appsync_dynamodb_datasource.name]
   data_source = aws_appsync_datasource.sample_appsync_dynamodb_datasource.name
 
   request_template = <<EOF
@@ -92,10 +92,11 @@ EOF
     $util.toJson($ctx.result)
 EOF
 }
-# Scan - Get All Objects (Limit of 1,000,000)
+# Scan - List Objects
+# Returns data for all objects. If no limit is provided, default limit will be 50 items.
 resource "aws_appsync_resolver" "sample_appsync_resolver_query_get_all_objects" {
   api_id      = aws_appsync_graphql_api.sample_appsync_graphql_api.id
-  field       = "getAllObjects"
+  field       = "listObjects"
   type        = "Query"
   data_source = aws_appsync_datasource.sample_appsync_dynamodb_datasource.name
 
@@ -104,7 +105,7 @@ resource "aws_appsync_resolver" "sample_appsync_resolver_query_get_all_objects" 
 {
     "version" : "2017-02-28",
     "operation" : "Scan",
-    "limit" : 1000000,
+    "limit": $util.defaultIfNull($ctx.args.limit, 50),
     "consistentRead" : false,
     "nextToken" : $util.toJson($util.defaultIfNullOrEmpty($ctx.args.nextToken, null)),
 }
@@ -114,28 +115,7 @@ EOF
    $util.toJson($ctx.result)
 EOF
 }
-# Scan - Get All Objects Paginated
-resource "aws_appsync_resolver" "sample_appsync_resolver_query_get_all_objects_paginated" {
-  api_id      = aws_appsync_graphql_api.sample_appsync_graphql_api.id
-  field       = "getAllObjectsPaginated"
-  type        = "Query"
-  data_source = aws_appsync_datasource.sample_appsync_dynamodb_datasource.name
 
-  request_template = <<EOF
-
-{
-    "version" : "2017-02-28",
-    "operation" : "Scan",
-    "limit" : 20,
-    "consistentRead" : false,
-    "nextToken" : $util.toJson($util.defaultIfNullOrEmpty($ctx.args.nextToken, null)),
-}
-EOF
-
-  response_template = <<EOF
-   $util.toJson($ctx.result)
-EOF
-}
 
 
 # Mutation - Delete One Object

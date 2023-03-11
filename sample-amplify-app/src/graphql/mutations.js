@@ -8,6 +8,7 @@ export const deleteOneJob = /* GraphQL */ `
     Version
     DetailType
     Source
+    FileName
     FilePath
     AccountId
     CreatedAt
