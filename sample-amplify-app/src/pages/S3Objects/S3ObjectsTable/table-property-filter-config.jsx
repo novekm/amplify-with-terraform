@@ -11,9 +11,20 @@ import { addColumnSortLabels } from '../labels';
 
 export const COLUMN_DEFINITIONS = addColumnSortLabels([
   {
+    id: 'FileName',
+    header: 'File Name',
+    // cell: (item) => <Link>{item.ObjectId}</Link>,
+    cell: (item) => (
+      <Link href={`/s3-objects/${item.ObjectId}`}>{item.FileName}</Link>
+    ),
+    minWidth: 200,
+    sortingField: 'FileName',
+  },
+  {
     id: 'ObjectId',
     header: 'Object Id',
-    cell: (item) => <Link>{item.ObjectId}</Link>,
+    // cell: (item) => <Link>{item.ObjectId}</Link>,
+    cell: (item) => item.ObjectId,
     minWidth: 200,
     sortingField: 'ObjectId',
   },
@@ -141,6 +152,12 @@ export const PAGE_SIZE_OPTIONS = [
 
 export const FILTERING_PROPERTIES = [
   {
+    propertyLabel: 'File Name',
+    key: 'FileName',
+    groupValuesLabel: 'File Name values',
+    operators: [':', '!:', '=', '!='],
+  },
+  {
     propertyLabel: 'Object Id',
     key: 'ObjectId',
     groupValuesLabel: 'Object Id values',
@@ -226,6 +243,7 @@ export const CUSTOM_PREFERENCE_OPTIONS = [
 export const DEFAULT_PREFERENCES = {
   pageSize: 30,
   visibleContent: [
+    'FileName',
     'ObjectId',
     'AccountId',
     'CurrentBucket',
@@ -250,7 +268,8 @@ export const VISIBLE_CONTENT_OPTIONS = [
   {
     label: 'Main S3 Object properties',
     options: [
-      { id: 'ObjectId', label: 'Object Id', editable: false },
+      { id: 'FileName', label: 'File Name', editable: false },
+      { id: 'ObjectId', label: 'Object Id', editable: true },
       { id: 'AccountId', label: 'Account ID', editable: true },
       { id: 'CurrentBucket', label: 'Current Bucket', editable: true },
       { id: 'DetailType', label: 'DetailType', editable: true },
