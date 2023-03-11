@@ -22,6 +22,7 @@ import DataUploader from './DataUploader';
 import AccountSettings from './AccountSettings';
 import ErrorPage from './ErrorPage';
 import S3Objects from './S3Objects';
+import SingleS3Object from './SingleS3Object';
 import FetchUserDetails from '../common/components/FetchUserDetails';
 
 // Styles
@@ -54,6 +55,7 @@ const App = ({ signOut, user }) => {
         <Route path="/data-uploader" element={<DataUploader />} />
         <Route path="/account-settings" element={<AccountSettings />} />
         <Route path="/s3-objects" element={<S3Objects />} />
+        <Route path="/s3-objects/:ObjectId" element={<SingleS3Object />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       {/* </Router> */}
