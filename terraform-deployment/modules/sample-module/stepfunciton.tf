@@ -100,6 +100,12 @@ resource "aws_sfn_state_machine" "sample_sfn_state_machine" {
               CurrentBucket = {
                 "S.$" = "States.Format('${aws_s3_bucket.sample_app_storage_bucket.id}')"
               },
+              FileName = {
+                "S.$" = "$.detail.object.key"
+              },
+              # FileName = {
+              #   "S.$" = "States.Format('{}-{}', $.detail.object.key, $.id)"
+              # },
               FilePath = {
                 "S.$" = "States.Format('s3://${aws_s3_bucket.sample_app_storage_bucket.id}/{}-{}', $.detail.object.key, $.id)"
               },
