@@ -1,12 +1,12 @@
 export const resourcesBreadcrumbs = [
-  {
-    text: 'Sample Amplify App',
-    href: '/',
-  },
-  {
-    text: 'Dashboard',
-    href: '/',
-  },
+  // {
+  //   text: 'Sample Amplify App',
+  //   href: '/',
+  // },
+  // {
+  //   text: 'Dashboard',
+  //   href: '/',
+  // },
 ];
 
 export const resourceDetailBreadcrumbs = [
