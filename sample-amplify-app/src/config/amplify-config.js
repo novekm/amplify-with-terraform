@@ -3,7 +3,7 @@
 // eslint-disable-next-line import/no-unresolved
 
 // Uncomment this to test env vars
-console.log('env', import.meta.env);
+// console.log('env', import.meta.env);
 
 const AmplifyConfig = {
   // Existing API
