@@ -113,13 +113,33 @@ sample_landing_bucket
 ```
 
 3. Ensure you are in the **`/sample-sample-amplify-app/`** directory and run the command **`npm install`** to install all dependencies.
-4. Once dependencies are installed, run the command **`npm run dev`** to run the development server on your `localhost`. The Terraform module is configured to write the outputs of Terraform to a JSON file (**`/terraform-deployment/modules/sample-qs/outputs.json`**). This file is referenced in the custom Amplify configuration file at **`/sample-sample-amplify-app/src/config/amplify-config.js`**.
+4. Once dependencies are installed, run the command **`npm run dev`** to run the development server on your `localhost`. The Terraform module is configured to write the outputs of Terraform to a .env file (**`/terraform-deployment/modules/sample-qs/.env`**). This file is referenced in the custom Amplify configuration file at **`/sample-sample-amplify-app/src/config/amplify-config.js`**.
+
+Note: A similar process takes place for the hosted Amplify App. In the Terraform configuration, the necessary environmental variables are passed directly to Amplify. Then during the build phase, those values are read from Amplify and a .env file is created within the docker instance during the build phase. This is then used by vite to render things correctly.
+
+```yaml
+    build:
+      commands:
+        - echo "🛠️ Setting up your environmental variables..."
+        - echo "VITE_REGION=$sample_REGION" >> .env
+        - echo "VITE_API_ID=$sample_GRAPHQL_API_ID" >> .env
+        - echo "VITE_GRAPHQL_URL=$sample_GRAPHQL_ENDPOINT" >> .env
+        - echo "VITE_IDENTITY_POOL_ID=$sample_IDENTITY_POOL_ID" >> .env
+        - echo "VITE_USER_POOL_ID=$sample_USER_POOL_ID" >> .env
+        - echo "VITE_APP_CLIENT_ID=$sample_APP_CLIENT_ID" >> .env
+        - echo "VITE_IOT_ENDPOINT=$sample_IOT_ENDPOINT" >> .env
+        - echo "Printing environmental variables to the console to ensure they are correct"
+        - cat .env
+        - npm run build
+        - echo "✅ Success!"
+```
+You can learn more about Vite Env Vars/Modes here: https://vitejs.dev/guide/env-and-mode.html
 
 **IMPORTANT:**
 
 In **`main.jsx`** we are using the **`Amplify.configure()`** method to configure the Amplify App with the values in the configuration file. This is what enables us to configure the Amplify application without the use of the Amplify CLI. These values will be automatically updated if needed when you run another **`terraform apply`**. This enables you to perform local development.
 
-The values in **`outputs.json`** are also stored in [AWS Systems Manager Parameter store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), and are also being passed into the amplify web application as [Environment Variables](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html) for ease of access when building for production. The `outputs.json` file is in the `.gitignore` so it will not be saved to the repo. If working within a team of developers to extend this sample application, you can simply remove this from the `.gitignore` so all team members can access the same file. However, as a best practice it is it is recommended to use the necessary values either from Systems Manager Parameter store, or with environment variables.
+The values in **`.env`** are also stored in [AWS Systems Manager Parameter store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), and are also being passed into the amplify web application as [Environment Variables](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html) for ease of access when building for production. The `.env` file is in the `.gitignore` so it will not be saved to the repo. If working within a team of developers to extend this sample application, you can simply remove this from the `.gitignore` so all team members can access the same file. However, as a best practice it is it is recommended to use the necessary values either from Systems Manager Parameter store, or with environment variables.
 
 You also may want to separate your backend and frontend into different repositories, in which case you would need to use the values in SSM parameter store, or through the environment variables passed into Amplify.
 
@@ -170,6 +190,7 @@ type Object  @aws_auth(cognito_groups: ["Admin", "Standard"])  {
   Version: String
   DetailType: String
   Source: String
+  FileName: String
   FilePath: String
   AccountId: String
   CreatedAt: String
