@@ -489,7 +489,7 @@ variable "sample_gitlab_mirroring_policy_name" {
 # CodeCommit
 variable "sample_create_codecommit_repo" {
   type    = bool
-  default = true
+  default = false
 }
 variable "sample_codecommit_repo_name" {
   type    = string
