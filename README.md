@@ -9,7 +9,7 @@ This workshop is a guided example of how you can leverage Terraform and the **[A
 
 
 
-For getting started quickly, check out some of our provided **[code examples](https://github.com/novekm/amplify-with-terraform/tree/main/terraform-deployment/examples).
+For getting started quickly, check out some of our provided **[code examples](https://github.com/novekm/amplify-with-terraform/tree/main/terraform-deployment/examples)**.
 
 For detailed information and step-by-step-guidance, check out the full workshop on **[AWS Workshop Studio](https://catalog.workshops.aws/amplify-with-terraform)**.
 
