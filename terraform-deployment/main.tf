@@ -4,11 +4,6 @@ module "sample-qs" {
   // location of the module - can be local or git repo
   source = "./modules/sample-module"
 
-  # - Amplify App -
-  create_amplify_app         = true
-  sample_create_codecommit_repo  = false
-  sample_enable_gitlab_mirroring = false
-
   # - Cognito -
   # Admin Users to create
   sample_admin_cognito_users = {
