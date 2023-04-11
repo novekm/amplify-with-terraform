@@ -5,9 +5,9 @@ module "sample-qs" {
   source = "./modules/sample-module"
 
   # - Amplify App -
-  create_amplify_app             = true
+  create_amplify_app         = true
   sample_create_codecommit_repo  = true
-  sample_enable_gitlab_mirroring = true
+  sample_enable_gitlab_mirroring = false
 
   # - Cognito -
   # Admin Users to create

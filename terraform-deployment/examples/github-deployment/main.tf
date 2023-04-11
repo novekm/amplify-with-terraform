@@ -4,9 +4,14 @@ module "sample-qs" {
   // location of the module - can be local or git repo
   source = "./modules/sample-module"
 
-  # GitHub Repo Access for Amplify
-  lookup_ssm_github_access_token = true                                 // default value is false.
-  ssm_github_access_token_name   = "Enter-Your-SSM-Parameter-Store-Key" // name of parameter store item (recommended method if using GitHub repo)
+  # - Amplify App -
+  create_amplify_app             = true
+  sample_create_codecommit_repo  = false
+  sample_enable_gitlab_mirroring = false
+  # Connect Amplify to GitHub
+  sample_existing_repo_url       = "https://github.com/your-repo-url"
+  lookup_ssm_github_access_token = true                                 // set to true if the resource exists in your AWS Account
+  ssm_github_access_token_name   = "Enter-Your-SSM-Parameter-Store-Key" // name of the paramater in SSM
 
   # - Cognito -
   # Admin Users to create
