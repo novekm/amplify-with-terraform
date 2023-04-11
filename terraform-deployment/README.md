@@ -20,7 +20,7 @@ To make sure you have it available on your machine, try running the following co
   terraform -v
   ```
 
-For best experience we recommend installing using an [IAM Roles](https://aws.amazon.com/iam/features/manage-roles/) with adequate permissions to deploy the AWS services. It is also recommended to deploy this quickstart into a development/test AWS account.
+For best experience we recommend installing using an [IAM Roles](https://aws.amazon.com/iam/features/manage-roles/) with adequate permissions to deploy the AWS services. It is also recommended to deploy this workshop into a development/test AWS account.
 
 ## 🚀 Setup
 
@@ -80,7 +80,7 @@ module "sample-qs" {
 
 #### **```sample-module``` Variables**
 
-A full list of the module variables is in the [module documentation](/terraform-deployment/modules/sample-module/README.md). All variables have default values set based on the function of the Quickstart. These can be modified to customize your deployment. See [this document](./terraform-deployment/README.md) for more information.
+A full list of the module variables is in the [module documentation](/terraform-deployment/modules/sample-module/README.md). All variables have default values set based on the function of the workshop. These can be modified to customize your deployment. See [this document](./terraform-deployment/README.md) for more information.
 
 
 **Amplify Web Application Note:** If you choose to deploy the Amplify Web Application make sure you review [web application documentation](/sample-amplify-app/documentation/README.md).
@@ -135,9 +135,9 @@ For quick setup follow the instructions below.
 
 #### Quick Setup
 
-If you are reading this it is because you deployed the Amazon TCA Quickstart Web Applicaiton by leaving the default value os `create_sample_amplify_app = true` in the `modules/sample-qs/variables.tf` file. Your application is already available via your `localhost`. The web application is leveraging [React](https://reactjs.org/), a javascript framework, and [ViteJS](https://vitejs.dev/) an alternative to CRA (`create-react-app`) that is quite popular and has a some substantial benefits.
+If you are reading this it is because you deployed the Sample Web Applicaiton by leaving the default value os `create_sample_amplify_app = true` in the `modules/sample-qs/variables.tf` file. Your application is already available via your `localhost`. The web application is leveraging [React](https://reactjs.org/), a javascript framework, and [ViteJS](https://vitejs.dev/) an alternative to CRA (`create-react-app`) that is quite popular and has a some substantial benefits.
 
-1. To deploy the full Amplify Application with Amplify Hosting in AWS, you must connect your repository to the Amplify App. The Quickstart supports 3 ways to do this:
+1. To deploy the full Amplify Application with Amplify Hosting in AWS, you must connect your repository to the Amplify App. The workshop supports 3 ways to do this:
 - **Mirror your GitLab repo to AWS CodeCommit**. Push events will trigger the Amplify App to build in AWS. You can specify which branches you wish to trigger the build, by default it will be the main branch. See [setting up GitLab to CodeCommit Mirroring](https://docs.gitlab.com/ee/user/project/repository/mirror/push.html) and the [Amplify App documentation](/sample-sample-amplify-app/documentation/README.md) for more information.
 - **Use your GitHub Personal Access Token**. You can alternatively use a GitHub personal access token to give Amplify access to your GitHub repository. See the [Amplify App Documentation](/sample-sample-amplify-app//documentation/README.md) and [Setting up the Amplify GitHub App for AWS CloudFormation, CLI, and SDK deployments](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html) for more information
 - **Use an existing AWS CodeCommit Repo**. You can also use an existing AWS CodeCommit repository and directly push to that to trigger the build. Just ensure that the Amplify App has access to your CodeCommit repo via the generated IAM Role. See the [Amplify App Documentation](/sample-amplify-app/documentation/README.md) for more information.
@@ -175,7 +175,7 @@ terraform destroy --target aws_s3_bucket.sample_quicksight_bucket
 The Terraform module has a number of outputs that you can reference to integrate the deployment into your existing infrastructure, or expand what is deployed by the module. These outputs are defined in the `outputs.tf` file in **`/terraform-deployment/modules/sample-qs/outputs.tf`**. These outputs are being used to dynamically configure the Amplify Application without using the Amplify CLI. To learn more about how this is being done, visit the [Amplify App Documentation](/sample-sample-amplify-app//documentation/README.md). Take a look at [this document](https://www.terraform.io/language/values/outputs) to learn more about [Terraform outputs](https://www.terraform.io/language/values/outputs). For a list of all outputs, visit the [sample-qs module documentation](/terraform-deployment//modules/sample-qs/README.md).
 
 
-## Extending this sample Quickstart
+## Extending this sample workshop
 
 If you are looking to utilize existing features of this sample project while integrating your own features, modules, or applications, please feel free to fork this repo and download locally and make changes to fit your use case.
 

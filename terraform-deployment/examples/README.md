@@ -1,5 +1,5 @@
 # Terraform Examples Documentation
-There are several examples you can leverage to get started with deployment. Most parameters are optional as there are defaults set based on the intended use of the quickstart.
+There are several examples you can leverage to get started with deployment. Most parameters are optional as there are defaults set based on the intended use of the workshop.
 ### Instructions
 1. Navigate to the directory for one of the examples
 2. Copy the content of the the related **`main.tf`** file and paste into YOUR **`main.tf`** file.

@@ -1,4 +1,4 @@
-# Building Full-Stack React Web Applications with Cloudscape and AWS Amplify 🎉
+<!-- # Building Full-Stack React Web Applications with Cloudscape and AWS Amplify 🎉 -->
 #### Created by:
 [Kevon Mayers](https://www.linkedin.com/in/kevonmayers)
 

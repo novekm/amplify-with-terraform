@@ -33,11 +33,11 @@ Follow the [DEPLOYMENT.md](/DEPLOYMENT.md) guide to deploy your infrastructure w
     * **`npm run preview`** — builds a minified project for production and runs locally
     * **`npm run test`** — runs tests that you define in your test files
 * **Helpful commands (AWS Amplify):**
-    * **`amplify init`** - initialized a new Amplify project. Must run this from the root directory of the frontend app. *Only necessary when using the Amplify CLI to launch resource (beyond the scope of this quickstart).*
+    * **`amplify init`** - initialized a new Amplify project. Must run this from the root directory of the frontend app. *Only necessary when using the Amplify CLI to launch resource (beyond the scope of this workshop).*
 
-    * **`amplify pull`** -  operates similar to a git pull, fetching upstream backend environment definition changes from the cloud* and update the local environment to match that definition. *Only necessary when using the Amplify CLI to launch resource (beyond the scope of this quickstart).*
+    * **`amplify pull`** -  operates similar to a git pull, fetching upstream backend environment definition changes from the cloud* and update the local environment to match that definition. *Only necessary when using the Amplify CLI to launch resource (beyond the scope of this workshop).*
 
-    * **`amplify console`** - launches the browser directing you to your cloud project in the AWS Amplify Console. *Only necessary when using the Amplify CLI to launch resource (beyond the scope of this quickstart).*
+    * **`amplify console`** - launches the browser directing you to your cloud project in the AWS Amplify Console. *Only necessary when using the Amplify CLI to launch resource (beyond the scope of this workshop).*
 
 * **Learn:**
     * source files are fully auto-generated and served by HTTP server.  Write your code in `src/` dir.
@@ -69,7 +69,7 @@ It is important to note that up to **9 IAM roles** and **1 IAM user** are create
 
 When users are added to the above groups, they have the respective permissions granted through the IAM roles (**`sample_cognito_admin_group_restricted_access`** or **`sample_cognito_standard_group_restricted_access`**). The standard permissions are restricted to what is necessary. However you can view/modify the IAM policies in **`/terraform-deployment/modules/sample-qs/iam.tf`**.
 
-***HINT***: Most resources launched by the using Terraform module will start with **`sample`**. When searching for resources deployed by Terraform for the quickstart, resources should begin with **`sample`** or include **`sample`** in the resource name.
+***HINT***: Most resources launched by the using Terraform module will start with **`sample`**. When searching for resources deployed by Terraform for the workshop, resources should begin with **`sample`** or include **`sample`** in the resource name.
 
 **Example:**
 ```sh
@@ -78,7 +78,7 @@ sample_landing_bucket
 
 ### Local Development
 
-1. Ensure that the Terraform configuration for the quickstart has been deployed
+1. Ensure that the Terraform configuration for the workshop has been deployed
 2. In deploying, you should have been sent an email with a **TOTP** (Time-based One Time Password) to your provided email addresses specified in **`main.tf`**. You'll need this to authenticate into the web application and AppSync GraphQL API.
 
 **Example:**
@@ -213,7 +213,7 @@ If you have any questions or run into issues with deployment, feel free to leave
 
 🚀 **Next Steps** - Connect your repository to set up Amplify Hosting for the Web App.
 ### Amplify Hosting
-To set up Amplify hosting for the web application, you must connect a repository to the Amplify App. This quickstart currently supports three ways to do this:
+To set up Amplify hosting for the web application, you must connect a repository to the Amplify App. This workshop currently supports three ways to do this:
 1. **Mirror your GitLab repo to AWS CodeCommit**. Push events will trigger the Amplify App to build in AWS. You can specify which branches you wish to trigger the build, by default it will be the main branch. See [setting up GitLab to CodeCommit Mirroring](https://docs.gitlab.com/ee/user/project/repository/mirror/push.html) for more information. Read on for instructions here.
 2. **Use your GitHub Personal Access Token**. You can alternatively use a GitHub personal access token to give Amplify access to your GitHub repository. See [Setting up the Amplify GitHub App for AWS CloudFormation, CLI, and SDK deployments](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html) for more information. Read on for instructions here.
 3. **Use an existing AWS CodeCommit Repo**. You can also use an existing AWS CodeCommit repository and directly push to that to trigger the build. Just ensure that the Amplify App has access to your CodeCommit repo via the generated IAM Role. Read on for instructions here.

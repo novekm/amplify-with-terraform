@@ -76,7 +76,7 @@ const Content = () => {
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/"
+                      href="https://github.com/novekm/amplify-with-terraform/"
                     >
                       GitHub Page
                     </a>
@@ -263,7 +263,7 @@ export const ToolsContent = () => (
       <a
         target="_blank"
         rel="noopener noreferrer"
-        href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/"
+        href="https://github.com/novekm/amplify-with-terraform"
       >
         GitHub Page
       </a>

@@ -108,14 +108,6 @@ const Content = () => {
               <Container>
                 <div>
                   <p>
-                    {/* Amazon TCA Quickstart is a contact center analytics tool
-                    built on AWS Services. Amazon TCA Quickstart reduces the
-                    undifferentiated heavy lifting of creating ML Models, API,
-                    Data Storage, Authentication, and many other items that come
-                    with leveraging detailed call analytics, and integrating
-                    those in a web application. */}
-                    {/* <br />
-                    <br /> */}
                     This project is built with the React framework and AWS
                     Amplify, leveraging public{' '}
                     <a

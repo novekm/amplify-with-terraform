@@ -20,7 +20,7 @@ const HelpTools = () => {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/issues/new"
+          href="https://github.com/novekm/amplify-with-terraform/issues/new"
         >
           GitHub issue
         </a>
