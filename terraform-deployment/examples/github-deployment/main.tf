@@ -5,9 +5,6 @@ module "sample-qs" {
   source = "./modules/sample-module"
 
   # - Amplify App -
-  create_amplify_app             = true
-  sample_create_codecommit_repo  = false
-  sample_enable_gitlab_mirroring = false
   # Connect Amplify to GitHub
   sample_existing_repo_url       = "https://github.com/your-repo-url"
   lookup_ssm_github_access_token = true                                 // set to true if the resource exists in your AWS Account
