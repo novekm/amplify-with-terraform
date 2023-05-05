@@ -389,7 +389,7 @@ variable "sample_string_schemas" {
 
     string_attribute_constraints = {
       min_length = 7
-      max_length = 25
+      max_length = 60
     }
     },
     {
