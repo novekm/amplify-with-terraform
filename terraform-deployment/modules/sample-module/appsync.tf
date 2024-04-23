@@ -43,7 +43,7 @@ type Object  @aws_auth(cognito_groups: ["Admin", "Standard"])  {
 }
 
 type Objects {
-  items: [Object]
+  objects: [Object!]!
   nextToken: String
   @aws_auth(cognito_groups: ["Admin", "Standard"])
 }
@@ -54,14 +54,14 @@ type Query {
   getObject(ObjectId: String!): Object @aws_auth(cognito_groups: ["Admin", "Standard"])
   }
 
-type Mutation {
-  deleteOneObject(ObjectId: String!): Object
-  @aws_auth(cognito_groups: ["Admin",])
-}
+# type Mutation {
+#   deleteOneObject(ObjectId: String!): Object
+#   @aws_auth(cognito_groups: ["Admin",])
+# }
 
 schema {
   query: Query
-  mutation: Mutation
+  # mutation: Mutation
 }
 EOF
 }
@@ -69,75 +69,36 @@ EOF
 
 # Resolvers
 # UNIT type resolver (default)
-# Query - Get Object
-# Returns data from one object specificied by 'ObjectId'
+# Query - Get a single S3 Object (APPSYNC_JS)
 resource "aws_appsync_resolver" "appsync_resolver_query_get_object" {
   api_id      = aws_appsync_graphql_api.appsync_graphql_api.id
+  data_source = aws_appsync_datasource.appsync_dynamodb_datasource.name
+  type        = "Query"
   field       = "getObject"
-  type        = "Query"
-  data_source = aws_appsync_datasource.appsync_dynamodb_datasource.name
+  kind        = "UNIT"
+  code        = file("${path.module}/appsync_js_resolvers/getObject.js")
 
-  request_template = <<EOF
-{
-    "version" : "2017-02-28",
-    "operation" : "GetItem",
-    "key" : {
-       "ObjectId" : $util.dynamodb.toDynamoDBJson($ctx.args.ObjectId)
-    },
-    "consistentRead" : false
-}
-EOF
+  runtime {
+    name            = "APPSYNC_JS"
+    runtime_version = "1.0.0"
+  }
 
-  response_template = <<EOF
-    $util.toJson($ctx.result)
-EOF
 }
-# Scan - List Objects
-# Returns data for all objects. If no limit is provided, default limit will be 50 items.
-resource "aws_appsync_resolver" "appsync_resolver_query_get_all_objects" {
+
+# Query - List all S3 Objects (APPSYNC_JS)
+resource "aws_appsync_resolver" "appsync_resolver_query_list_objects" {
   api_id      = aws_appsync_graphql_api.appsync_graphql_api.id
+  data_source = aws_appsync_datasource.appsync_dynamodb_datasource.name
+  type        = "Query"
   field       = "listObjects"
-  type        = "Query"
-  data_source = aws_appsync_datasource.appsync_dynamodb_datasource.name
 
-  request_template = <<EOF
+  kind = "UNIT"
+  code = file("${path.module}/appsync_js_resolvers/listObjects.js")
 
-{
-    "version" : "2017-02-28",
-    "operation" : "Scan",
-    "limit": $util.defaultIfNull($ctx.args.limit, 50),
-    "consistentRead" : false,
-    "nextToken" : $util.toJson($util.defaultIfNullOrEmpty($ctx.args.nextToken, null)),
-}
-EOF
-
-  response_template = <<EOF
-   $util.toJson($ctx.result)
-EOF
-}
-
-
-
-# Mutation - Delete One Object
-resource "aws_appsync_resolver" "appsync_resolver_mutation_delete_one_object" {
-  api_id      = aws_appsync_graphql_api.appsync_graphql_api.id
-  field       = "deleteOneObject"
-  type        = "Mutation"
-  data_source = aws_appsync_datasource.appsync_dynamodb_datasource.name
-
-  request_template = <<EOF
-{
-    "version" : "2017-02-28",
-    "operation" : "DeleteItem",
-    "key" : {
-        "ObjectId" : $util.dynamodb.toDynamoDBJson($ctx.args.ObjectId)
-    }
-}
-EOF
-
-  response_template = <<EOF
-   $util.toJson($ctx.result)
-EOF
+  runtime {
+    name            = "APPSYNC_JS"
+    runtime_version = "1.0.0"
+  }
 }
 
 

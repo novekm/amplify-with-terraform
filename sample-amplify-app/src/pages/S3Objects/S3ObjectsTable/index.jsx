@@ -105,9 +105,10 @@ const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
         query: queries.listObjects,
         variables: { limit:10000 }
       });
-      const s3ObjectsDataList = s3ObjectData.data.listObjects.items;
+      const s3ObjectsDataList = s3ObjectData.data.listObjects.objects;
       console.log('S3 Object List', s3ObjectsDataList);
       setS3Objects(s3ObjectsDataList);
+      setLoading(false);
     } catch (error) {
       console.log('error on fetching s3 objects', error);
     }

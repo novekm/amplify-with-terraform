@@ -12,7 +12,7 @@ const AmplifyConfig = {
     GraphQL:{
       endpoint: `${import.meta.env.VITE_GRAPHQL_URL}`,
       region: `${import.meta.env.VITE_REGION}`,
-      defaultAuthMode: 'AMAZON_COGNITO_USER_POOLS', // No touchy
+      defaultAuthMode: 'userPool', // No touchy
     }
   },
   // Existing Auth

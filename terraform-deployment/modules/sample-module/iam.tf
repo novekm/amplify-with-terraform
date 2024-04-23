@@ -507,6 +507,7 @@ resource "aws_iam_role" "step_functions_master_restricted_access" {
     aws_iam_policy.s3_restricted_access_policy[0].arn,
     aws_iam_policy.ssm_restricted_access_policy[0].arn,
     aws_iam_policy.dynamodb_restricted_access_policy[0].arn,
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
     "arn:aws:iam::aws:policy/AmazonSNSFullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
   ]

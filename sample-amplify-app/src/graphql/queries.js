@@ -3,7 +3,7 @@
 export const listObjects = /* GraphQL */ `
   query ListObjects($limit: Int, $nextToken: String) {
     listObjects(limit: $limit, nextToken: $nextToken) {
-      items {
+      objects {
         ObjectId
         Version
         DetailType

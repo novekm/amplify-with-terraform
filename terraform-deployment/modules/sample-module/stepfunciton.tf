@@ -27,7 +27,8 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
             "uuid.$" = "$.id"
           }
           ResultPath = "$.taskresult"
-          Next       = "${var.sfn_state_get_input_file_name}"
+          Next       = "WriteToDynamoDB"
+          # Next       = "${var.sfn_state_get_input_file_name}"
         }
       },
 
@@ -38,9 +39,9 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       #     Resource   = "arn:aws:states:::aws-sdk:s3:copyObject",
       #     ResultPath = "$.getS3Output"
       #     Parameters = {
-      #       Bucket         = "${aws_s3_bucket.app_storage_bucket.id}",
-      #       "Key.$"        = "States.Format('{}-{}',$.detail.object.key, $.id)",                                 // reference object key from InputPath and add uuid
-      #       "CopySource.$" = "States.Format('${aws_s3_bucket.input_bucket.id}/{}-{}',$.detail.object.key, $.id)" // reference bucket name and object path from InputPath
+      #       Bucket         = "${aws_s3_bucket.landing_bucket.id}",
+      #       "Key.$"        = "States.Format('/public/output/{}-{}',$.detail.object.key, $.id)",                    // reference object key from InputPath and add uuid
+      #       "CopySource.$" = "States.Format('${aws_s3_bucket.landing_bucket.id}/{}-{}',$.detail.object.key, $.id)" // reference bucket name and object path from InputPath
       #     },
       #     Next = "WriteToDynamoDB"
       #   }
@@ -110,9 +111,9 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               SourceIPAddress = {
                 "S.$" = "$.detail.source-ip-address"
               },
-              LifecycleConfig = {
-                "S.$" = "$.getInputFileStateOutput.Expiration"
-              },
+              # LifecycleConfig = {
+              #   "S.$" = "$.getInputFileStateOutput.Expiration"
+              # },
             }
           }
           Next = "Success"
@@ -153,20 +154,39 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
 
       # },
 
-      // GetInputFile
-      coalesce((var.create_sfn_state_get_input_file) ? {
-        "${var.sfn_state_get_input_file_name}" = {
-          Type       = "Task",
-          Resource   = "arn:aws:states:::aws-sdk:s3:getObject",
-          ResultPath = "$.getInputFileStateOutput"
-          Parameters = {
-            Bucket  = "${aws_s3_bucket.input_bucket.id}",
-            "Key.$" = "States.Format('{}-{}',$.detail.object.key, $.id)", // reference object key from InputPath and add uuid
-          },
-          Next = "WriteToDynamoDB"
-          # Next = "CopyToAppStorage"
-        },
-      } : null, {}),
+      # // GetInputFile
+      # coalesce((var.create_sfn_state_get_input_file) ? {
+      #   "${var.sfn_state_get_input_file_name}" = {
+      #     Type       = "Task",
+      #     Resource   = "arn:aws:states:::aws-sdk:s3:listObject",
+      #     ResultPath = "$.getInputFileStateOutput"
+      #     Parameters = {
+      #       Bucket  = "${aws_s3_bucket.landing_bucket.id}",
+      #       "Key.$" = "$.detail.object.key", // reference object key from InputPath and add uuid
+      #       # "Key.$" = "States.Format('{}-{}',$.detail.object.key, $.id)", // reference object key from InputPath and add uuid
+      #     },
+      #     Next = "WriteToDynamoDB"
+      #     # Next = "CopyToAppStorage"
+      #   },
+      # } : null, {}),
+
+      # FIX THIS ONE
+      # // GetSampleInputFile
+      # coalesce((var.create_sfn_state_get_input_file) ? {
+      #   # (var.sfn_state_get_input_file_name) = {
+      #   "${var.sfn_state_get_input_file_name}" = {
+      #     Type       = "Task",
+      #     Resource   = "arn:aws:states:::aws-sdk:s3:copyObject",
+      #     ResultPath = "$.getInputFileStateOutput"
+      #     Parameters = {
+      #       Bucket         = "${aws_s3_bucket.landing_bucket.id}",
+      #       "Key.$"        = "States.Format('{}-{}',$.detail.object.key, $.id)",               // reference object key from InputPath and add uuid
+      #       "CopySource.$" = "States.Format('{}/{}',$.detail.bucket.name,$.detail.object.key)" // reference bucket name and object path from InputPath
+      #     },
+      #     Next = "WriteToDynamoDB"
+      #     # Next = "CopyToAppStorage"
+      #   },
+      # } : null, {}),
 
       # // GetSampleInputFile
       # coalesce((var.create_sfn_state_get_input_file) ? {
@@ -176,7 +196,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       #     Resource   = "arn:aws:states:::aws-sdk:s3:copyObject",
       #     ResultPath = "$.getInputFileStateOutput"
       #     Parameters = {
-      #       Bucket         = "${aws_s3_bucket.input_bucket.id}",
+      #       Bucket         = "${aws_s3_bucket.landing_bucket.id}",
       #       "Key.$"        = "States.Format('{}-{}',$.detail.object.key, $.id)",               // reference object key from InputPath and add uuid
       #       "CopySource.$" = "States.Format('{}/{}',$.detail.bucket.name,$.detail.object.key)" // reference bucket name and object path from InputPath
       #     },

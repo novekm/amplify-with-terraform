@@ -251,7 +251,7 @@ const Content = () => {
               </Box>
               <div className="custom-home__header-title">
                 <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                  GISA
+                  Sample Amplify App
                 </Box>
                 <Box
                   fontSize="display-l"
