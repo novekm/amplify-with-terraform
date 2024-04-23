@@ -41,8 +41,8 @@ import '../../common/styles/servicehomepage.scss';
 
 import { COLUMN_DEFINITIONS } from './TableConfig';
 
-// Amplify
-import { Storage } from 'aws-amplify';
+// - AMPLIFY -
+import { uploadData } from 'aws-amplify/storage';
 
 // Image imports
 import awsLogo from '../../public/images/AWS_logo_RGB_REV.png';
@@ -50,7 +50,6 @@ import awsLogo from '../../public/images/AWS_logo_RGB_REV.png';
 const DataUploader = () => {
   return (
     <>
-      {/* <TopNavigationHeader/> */}
       <AppLayout
         navigation={<Sidebar activeHref="#/" />}
         // navigation={<Sidebar activeHref="#/" items={navItems}/>}
@@ -161,63 +160,61 @@ const Content = () => {
     setDisableAddFileButton(true);
 
     try {
-      setAlertType('success');
-      setAlertContent('File was uploaded successfully');
+      // setAlertType('success');
+      // setAlertContent('File was uploaded successfully');
 
-      // eslint-disable-next-line camelcase, no-unused-vars
+      const result = await uploadData({
+          // key: filename,
+          // data: file,
+          key: `${files.name}`,
+          data: files,
+          contentType: files.type,
+          options: {
+            onProgress: ({ transferredBytes, totalBytes }) => {
+              if (totalBytes) {
+                console.log('Uploading file to S3 Bucket ...');
+                console.log(
+                  `Upload progress ${
+                    Math.round((transferredBytes / totalBytes) * 100)
+                  } %`
+                  );
+                  const percent_uploaded = Math.round((transferredBytes / totalBytes) * 100);
 
-      const put_s3_file = await Storage.put(files.name, files, {
-        // bucket: "your-bucket-name", - use this parameter to add to bucket beyond amplify-config
-        progressCallback(progress) {
-          const percent_uploaded = Math.floor(
-            (progress.loaded / progress.total) * 100
-          );
-          console.log('Uploading file to S3 Bucket ...');
-          console.log(
-            `Uploaded: ${progress.loaded}/${progress.total} | ${percent_uploaded}%`
-          );
-          setFilePercentUploaded(percent_uploaded);
-          setFileName(files.name);
+                setFilePercentUploaded(percent_uploaded);
+                setFileName(files.name);
+                setFlashbarItems([
+                  {
+                    type: 'success',
+                    content: `File: ${files.name} has been successfully uploaded.`,
+                    action: (
+                      <Button onClick={() => navigate('/s3-objects')}>
+                        View S3 Objects
+                      </Button>
+                    ),
+                    dismissible: true,
+                    dismissLabel: 'Dismiss message',
+                    // onDismiss: () => {setItems([]); setShowSuccessFlashbar(false)},
+                    onDismiss: () => setShowSuccessFlashbar(false),
+                    id: 'success_message_1',
+                  },
+                ]);
+              }
+            }
+          }
+        }).result;
 
-          setFlashbarItems([
-            {
-              type: 'success',
-              content: `File: ${files.name} has been successfully uploaded.`,
-              action: (
-                <Button onClick={() => navigate('/s3-objects')}>
-                  View S3 Objects
-                </Button>
-              ), // TODO - make this nav to TCA jobs page
-              dismissible: true,
-              dismissLabel: 'Dismiss message',
-              // onDismiss: () => {setItems([]); setShowSuccessFlashbar(false)},
-              onDismiss: () => setShowSuccessFlashbar(false),
-              id: 'success_message_1',
-            },
-          ]);
-        },
-        // level: 'public',
-        customPrefix: {
-          public: '',
-        },
-        contentType: files.type,
-      });
+        console.log('Key from Response: ', result.key);
 
-      // setVisibleAlert(true) // old success method
-      setShowSuccessFlashbar(true); // show success flashbar when Storage.put() is successfully completed
-      setShowUploadingFlashbar(false); // hide uploading flashbar when Storage.put() is successfully completed
-      setDisableCancelButton(false); // allow cancel button to work again when Storage.put() is successfully completed
-      setData([]);
-      setDisableCancelButton(true);
-      setDisableAddFileButton(false);
-      setFilePercentUploaded(0); // reset file upload state back to 0
-      // setFileUploadStatus('Successful')
-    } catch (err) {
-      console.log('Error uploading file:', err);
-      // old error alerting
-      // setAlertType('error');
-      // setAlertContent('Error uploading file: Unauthorized', err)
-      // setVisibleAlert(true)
+        setShowSuccessFlashbar(true); // show success flashbar when file upload is successfully completed
+        setShowUploadingFlashbar(false); // hide uploading flashbar when file upload is successfully completed
+        setDisableCancelButton(false); // allow cancel button to work again when file upload is successfully completed
+        setData([]);
+        setDisableCancelButton(true);
+        setDisableAddFileButton(false);
+        setFilePercentUploaded(0); // reset file upload state back to 0
+      } catch (error) {
+
+      console.log('Error uploading file:', error);
 
       setFlashbarItems([
         {
@@ -236,8 +233,6 @@ const Content = () => {
       setDisableCancelButton(false); // allow cancel button to work again if file cannot be uploaded successfully
       setDisableAddFileButton(false);
       setDisableRemoveButton(false);
-      // setFileUploadStatus('Failed')
-      // setFileUploadErrorMessage('403: Unauthorized')
     }
   };
 
@@ -272,7 +267,6 @@ const Content = () => {
                   </span>
                 </Box>
               </div>
-              ``
             </Box>
           </Grid>
         </div>
@@ -401,8 +395,8 @@ const Content = () => {
                             </Button>
                             <input
                               type="file"
-                              accept=".amr,.flac,.mp3,.ogg, .webm,.wav"
-                              id="sample-file"
+                              accept=".csv,.json,.xml,.txt,.amr,.flac,.mp3,.mp4,.ogg,.webm,.wav"
+                              id="grid-interconnect-file"
                               hidden="hidden"
                               style={{ display: 'none' }}
                               ref={fileInput}
@@ -411,7 +405,7 @@ const Content = () => {
                             <Button
                               disabled={disableAddFileButton}
                               iconName="file"
-                              id="sample-button"
+                              id="grid-interconnect-button"
                               onClick={selectFile}
                             >
                               {' '}
@@ -469,16 +463,28 @@ export const ToolsContent = () => (
               text="AWS Energy & Utilities"
             />
           </li>
-          {/* <li>
-            <ExternalLinkItem
-              href="https://aws.amazon.com/energy/"
-              text="TBD - Amazon TCAQS Blog Post"
-            />
-          </li> */}
           <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/s3/"
               text="Amazon S3"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://github.com/novekm/iot-puppy-park"
+              text="IoT Puppy Park GitHub Repo"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://www.petoi.com/pages/bittle-open-source-bionic-robot-dog"
+              text="Petoi Bittle"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://www.petoi.camp/forum/"
+              text="Petoi Forum"
             />
           </li>
         </ul>

@@ -1,11 +1,14 @@
 // TODO - Create TF code for DynamoDB
-resource "random_uuid" "sample_output_uuid" {
+resource "random_string" "output_table" {
+  length  = 4
+  special = false
+  upper   = false
 }
-resource "aws_dynamodb_table" "sample_output" {
-  name           = "sample_output-${random_uuid.sample_output_uuid.result}" // No touchy
-  billing_mode   = var.sample_output_billing_mode
-  read_capacity  = var.sample_output_read_capacity
-  write_capacity = var.sample_output_write_capacity
+resource "aws_dynamodb_table" "output" {
+  name           = "${var.app_name}-output-${random_string.output_table.result}" // No touchy
+  billing_mode   = var.output_billing_mode
+  read_capacity  = var.output_read_capacity
+  write_capacity = var.output_write_capacity
   hash_key       = "ObjectId" // Partition Key
   # range_key      = "-" // Sort Key
 

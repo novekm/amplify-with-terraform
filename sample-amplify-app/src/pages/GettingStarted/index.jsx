@@ -31,8 +31,9 @@ import '../../common/styles/servicehomepage.scss';
 
 // Import images
 import awsLogo from '../../public/images/AWS_logo_RGB_REV.png';
-import iacBasicArch from '../../../../resources/architecture/IAC_SAMPLE_ARCH.png';
-import iacAdvancedArch from '../../../../resources/architecture/IAC_ADVANCED_ARCH.png';
+import AmplifyTFBasicArch from '../../../../resources/architecture/AMPLIFY_TF_BASIC_ARCH.png';
+import AmplifyTFAdvancedArch from '../../../../resources/architecture/AMPLIFY_TF_ADVANCED_ARCH.png';
+import SFN_Workflow from '../../../../resources/step-function/AMPLIFY_TF_SFN_WORKFLOW.png';
 
 const GettingStarted = () => {
   return (
@@ -141,7 +142,7 @@ const Content = () => {
                 {/* Make this flex later. maxWidth is not mobile responsive */}
                 <div>
                   <img
-                    src={iacBasicArch}
+                    src={AmplifyTFBasicArch}
                     alt=""
                     style={{ maxWidth: '100%', paddingRight: '2em' }}
                   />
@@ -151,7 +152,17 @@ const Content = () => {
               <Container header={<Header>Detailed Architecture</Header>}>
                 <div>
                   <img
-                    src={iacAdvancedArch}
+                    src={AmplifyTFAdvancedArch}
+                    alt=""
+                    style={{ maxWidth: '100%', paddingRight: '2em' }}
+                  />
+                </div>
+                <div>{/* <p>This is the detailed architecture.</p> */}</div>
+              </Container>
+              <Container header={<Header>AWS Step Functions Workflow</Header>}>
+                <div>
+                  <img
+                    src={SFN_Workflow}
                     alt=""
                     style={{ maxWidth: '100%', paddingRight: '2em' }}
                   />
