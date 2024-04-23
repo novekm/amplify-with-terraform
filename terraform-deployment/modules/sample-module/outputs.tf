@@ -5,29 +5,13 @@ output "aws_current_region" {
 }
 
 # S3
-output "input_bucket_id" {
-  value       = aws_s3_bucket.input_bucket
-  description = "The name of the S3 input bucket"
+output "landing_bucket_id" {
+  value       = aws_s3_bucket.landing_bucket
+  description = "The name of the S3 landing bucket"
 }
-output "input_bucket_arn" {
-  value       = aws_s3_bucket.input_bucket
-  description = "The Arn of the S3 input bucket"
-}
-output "output_bucket_id" {
-  value       = aws_s3_bucket.output_bucket
-  description = "The name of the S3 output bucket"
-}
-output "output_bucket_arn" {
-  value       = aws_s3_bucket.output_bucket
-  description = "The Arn of the S3 input bucket"
-}
-output "app_storage_bucket_id" {
-  value       = aws_s3_bucket.app_storage_bucket
-  description = "The name of the S3 app storage bucket"
-}
-output "app_storage_bucket_arn" {
-  value       = aws_s3_bucket.app_storage_bucket
-  description = "The ARN of the S3 app storage bucket"
+output "landing_bucket_arn" {
+  value       = aws_s3_bucket.landing_bucket
+  description = "The Arn of the S3 landing bucket"
 }
 
 # Amplify

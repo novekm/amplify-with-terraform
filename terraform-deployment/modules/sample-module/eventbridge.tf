@@ -34,9 +34,6 @@ resource "aws_cloudwatch_event_rule" "default_event_bus_to_event_bus" {
       bucket = {
         name = [
           "${aws_s3_bucket.landing_bucket.id}",
-          "${aws_s3_bucket.input_bucket.id}",
-          "${aws_s3_bucket.output_bucket.id}",
-          "${aws_s3_bucket.app_storage_bucket.id}",
         ]
       }
     }
@@ -50,7 +47,7 @@ resource "aws_cloudwatch_event_rule" "default_event_bus_to_event_bus" {
   )
 }
 resource "aws_cloudwatch_event_rule" "sns_default_event_bus_to_event_bus" {
-  name        = "sns_default_event_bus_to_event_bus"
+  name        = "${var.app_name}-sns_default_event_bus_to_event_bus"
   description = "Send all SNS events for tca sfn failures from default event bus to event_bus"
   // default event bus is used if event_bus_name is not specificed
   # role_arn = var.create_full_access_roles ? aws_iam_role.eventbridge_invoke_step_functions_state_machine_full_access[0].arn : aws_iam_role.eventbridge_invoke_sfn_state_machine_restricted_access[0].arn
@@ -72,9 +69,6 @@ resource "aws_cloudwatch_event_rule" "sns_default_event_bus_to_event_bus" {
       bucket = {
         name = [
           "${aws_s3_bucket.landing_bucket.id}",
-          "${aws_s3_bucket.input_bucket.id}",
-          "${aws_s3_bucket.output_bucket.id}",
-          "${aws_s3_bucket.app_storage_bucket.id}",
         ]
       }
     }
@@ -88,7 +82,7 @@ resource "aws_cloudwatch_event_rule" "sns_default_event_bus_to_event_bus" {
   )
 }
 resource "aws_cloudwatch_event_rule" "landing_bucket_object_created" {
-  name           = "landing_bucket_object_created"
+  name           = "${var.app_name}-landing_bucket_object_created"
   description    = "Capture each object creation in S3 landing_bucket"
   event_bus_name = aws_cloudwatch_event_bus.event_bus.name
   # role_arn       = var.create_full_access_roles ? aws_iam_role.eventbridge_invoke_step_functions_state_machine_full_access[0].arn : aws_iam_role.eventbridge_invoke_sfn_state_machine_restricted_access[0].arn

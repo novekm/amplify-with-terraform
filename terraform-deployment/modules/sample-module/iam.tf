@@ -164,18 +164,12 @@ data "aws_iam_policy_document" "s3_restricted_access_policy" {
     resources = [
       "${aws_s3_bucket.landing_bucket.arn}",
       "${aws_s3_bucket.landing_bucket.arn}/*",
-      "${aws_s3_bucket.input_bucket.arn}",
-      "${aws_s3_bucket.input_bucket.arn}/*",
-      "${aws_s3_bucket.output_bucket.arn}",
-      "${aws_s3_bucket.output_bucket.arn}/*",
-      "${aws_s3_bucket.app_storage_bucket.arn}",
-      "${aws_s3_bucket.app_storage_bucket.arn}/*",
     ]
   }
 }
 resource "aws_iam_policy" "s3_restricted_access_policy" {
   count  = var.create_restricted_access_roles ? 1 : 0
-  name   = "s3_restricted_access_policy"
+  name   = "${var.app_name}-s3_restricted_access_policy"
   policy = data.aws_iam_policy_document.s3_restricted_access_policy[0].json
 }
 
@@ -194,7 +188,7 @@ data "aws_iam_policy_document" "dynamodb_restricted_access_policy" {
 }
 resource "aws_iam_policy" "dynamodb_restricted_access_policy" {
   count       = var.create_restricted_access_roles ? 1 : 0
-  name        = "dynamodb_restricted_access_policy"
+  name        = "${var.app_name}-dynamodb_restricted_access_policy"
   description = "Policy granting full DynamoDB permissions for the output DynamoDB table."
   policy      = data.aws_iam_policy_document.dynamodb_restricted_access_policy[0].json
 
@@ -218,7 +212,7 @@ data "aws_iam_policy_document" "dynamodb_restricted_access_read_only_policy" {
 }
 resource "aws_iam_policy" "dynamodb_restricted_access_read_only_policy" {
   count       = var.create_restricted_access_roles ? 1 : 0
-  name        = "dynamodb_restricted_access_read_only_policy"
+  name        = "${var.app_name}-dynamodb_restricted_access_read_only_policy"
   description = "Policy granting restricted (read-only) DynamoDB permissions for the output DynamoDB table."
   policy      = data.aws_iam_policy_document.dynamodb_restricted_access_read_only_policy[0].json
 
@@ -235,16 +229,14 @@ data "aws_iam_policy_document" "ssm_restricted_access_policy" {
       "ssm:DescribeParameters",
     ]
     resources = [
-      "${aws_ssm_parameter.input_bucket_name.arn}",
-      "${aws_ssm_parameter.output_bucket_name.arn}",
-      "${aws_ssm_parameter.app_storage_bucket_name.arn}",
+      "${aws_ssm_parameter.landing_bucket_name.arn}",
       "${aws_ssm_parameter.dynamodb_output_table_name.arn}",
     ]
   }
 }
 resource "aws_iam_policy" "ssm_restricted_access_policy" {
   count  = var.create_restricted_access_roles ? 1 : 0
-  name   = "ssm_restricted_access_policy"
+  name   = "${var.app_name}-ssm_restricted_access_policy"
   policy = data.aws_iam_policy_document.ssm_restricted_access_policy[0].json
 
 }
@@ -291,7 +283,7 @@ data "aws_iam_policy_document" "eventbridge_invoke_custom_event_bus_restricted_a
 }
 resource "aws_iam_policy" "eventbridge_invoke_custom_event_bus_restricted_access_policy" {
   count  = var.create_restricted_access_roles ? 1 : 0
-  name   = "eventbridge_invoke_custom_event_bus_restricted_access_policy"
+  name   = "${var.app_name}-eventbridge_invoke_custom_event_bus_restricted_access_policy"
   policy = data.aws_iam_policy_document.eventbridge_invoke_custom_event_bus_restricted_access_policy[0].json
 }
 
@@ -311,7 +303,7 @@ data "aws_iam_policy_document" "eventbridge_invoke_sfn_state_machine_restricted_
 }
 resource "aws_iam_policy" "eventbridge_invoke_sfn_state_machine_restricted_access_policy" {
   count  = var.create_restricted_access_roles ? 1 : 0
-  name   = "eventbridge_invoke_sfn_state_machine_restricted_access_policy"
+  name   = "${var.app_name}-eventbridge_invoke_sfn_state_machine_restricted_access_policy"
   policy = data.aws_iam_policy_document.eventbridge_invoke_sfn_state_machine_restricted_access_policy[0].json
 }
 
@@ -324,7 +316,7 @@ resource "aws_iam_role" "cognito_authrole_restricted_access" {
   # Conditional create of the role - default is 'TRUE'
   count = var.create_restricted_access_roles ? 1 : 0
 
-  name               = "authRole_restricted_access"
+  name               = "${var.app_name}-authRole_restricted_access"
   assume_role_policy = data.aws_iam_policy_document.cognito_authrole_trust_relationship.json
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
@@ -346,7 +338,7 @@ resource "aws_iam_role" "cognito_authrole_restricted_access" {
 resource "aws_iam_role" "cognito_unauthrole_restricted_access" {
   # Conditional create of the role - default is 'TRUE'
   count              = var.create_restricted_access_roles ? 1 : 0
-  name               = "unauthRole_restricted_access"
+  name               = "${var.app_name}-unauthRole_restricted_access"
   assume_role_policy = data.aws_iam_policy_document.cognito_unauthrole_trust_relationship.json
 
   # Managed Policies
@@ -369,7 +361,7 @@ resource "aws_iam_role" "cognito_admin_group_restricted_access" {
   # Conditional create of the role - default is 'TRUE'
   count = var.create_restricted_access_roles ? 1 : 0
 
-  name               = "cognito_admin_group_restricted_access"
+  name               = "${var.app_name}-cognito_admin_group_restricted_access"
   assume_role_policy = data.aws_iam_policy_document.cognito_admin_group_trust_relationship.json
   description        = "Role granting full DynamoDB permissions for the outputs DynamoDB table."
   managed_policy_arns = [
@@ -393,7 +385,7 @@ resource "aws_iam_role" "cognito_standard_group_restricted_access" {
   # Conditional create of the role - default is 'TRUE'
   count = var.create_restricted_access_roles ? 1 : 0
 
-  name               = "cognito_standard_group_restricted_access"
+  name               = "${var.app_name}-cognito_standard_group_restricted_access"
   assume_role_policy = data.aws_iam_policy_document.cognito_standard_group_trust_relationship.json
   description        = "Role granting restricted (read-only) DynamoDB permissions for the outputs DynamoDB table."
   managed_policy_arns = [
@@ -418,7 +410,7 @@ resource "aws_iam_role" "cognito_standard_group_restricted_access" {
 resource "aws_iam_role" "appsync_dynamodb_restricted_access" {
   # Conditional create of the role - default is 'TRUE'
   count              = var.create_restricted_access_roles ? 1 : 0
-  name               = "appsync_dynamodb_restricted_access"
+  name               = "${var.app_name}-appsync_dynamodb_restricted_access"
   assume_role_policy = data.aws_iam_policy_document.appsync_trust_relationship.json
   # Managed Policies
   managed_policy_arns = [
@@ -444,7 +436,7 @@ resource "aws_iam_role" "appsync_dynamodb_restricted_access" {
 resource "aws_iam_role" "eventbridge_invoke_custom_event_bus_restricted_access" {
   # Conditional create of the role - default is 'TRUE'
   count              = var.create_restricted_access_roles ? 1 : 0
-  name               = "eventbridge_invoke_custom_event_bus_restricted_access"
+  name               = "${var.app_name}-eventbridge_invoke_custom_event_bus_restricted_access"
   assume_role_policy = data.aws_iam_policy_document.eventbridge_trust_relationship.json
   # Managed Policies
   managed_policy_arns = [
@@ -470,7 +462,7 @@ resource "aws_iam_role" "eventbridge_invoke_custom_event_bus_restricted_access" 
 resource "aws_iam_role" "eventbridge_invoke_sfn_state_machine_restricted_access" {
   # Conditional create of the role - default is 'TRUE'
   count              = var.create_restricted_access_roles ? 1 : 0
-  name               = "eventbridge_invoke_sfn_state_machine_restricted_access"
+  name               = "${var.app_name}-eventbridge_invoke_sfn_state_machine_restricted_access"
   assume_role_policy = data.aws_iam_policy_document.eventbridge_trust_relationship.json
   # Managed Policies
   managed_policy_arns = [
@@ -499,7 +491,7 @@ resource "aws_iam_role" "eventbridge_invoke_sfn_state_machine_restricted_access"
 resource "aws_iam_role" "step_functions_master_restricted_access" {
   # Conditional create of the role - default is 'TRUE'
   count              = var.create_restricted_access_roles ? 1 : 0
-  name               = "step_functions_master_restricted_access"
+  name               = "${var.app_name}-step_functions_master_restricted_access"
   description        = "Master step function role that grants S3 restricted access, SSM restricted access, DynamoDB restricted access as well as CloudWatch full access. "
   assume_role_policy = data.aws_iam_policy_document.step_function_trust_relationship.json
   # Managed Policies
@@ -507,7 +499,7 @@ resource "aws_iam_role" "step_functions_master_restricted_access" {
     aws_iam_policy.s3_restricted_access_policy[0].arn,
     aws_iam_policy.ssm_restricted_access_policy[0].arn,
     aws_iam_policy.dynamodb_restricted_access_policy[0].arn,
-    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+    # "arn:aws:iam::aws:policy/AmazonS3FullAccess",
     "arn:aws:iam::aws:policy/AmazonSNSFullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
   ]
@@ -527,7 +519,7 @@ resource "aws_iam_role" "step_functions_master_restricted_access" {
 
 resource "aws_iam_role" "amplify_codecommit" {
   count               = var.create_codecommit_repo ? 1 : 0
-  name                = "amplify_codecommit"
+  name                = "${var.app_name}-amplify_codecommit"
   assume_role_policy  = data.aws_iam_policy_document.amplify_trust_relationship.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/AWSCodeCommitReadOnly"]
 }
@@ -535,7 +527,7 @@ resource "aws_iam_role" "amplify_codecommit" {
 # GitLab
 resource "aws_iam_user" "gitlab_mirroring" {
   count         = var.enable_gitlab_mirroring ? 1 : 0
-  name          = var.gitlab_mirroring_iam_user_name
+  name          = "${var.app_name}-${var.gitlab_mirroring_iam_user_name}"
   path          = "/${var.app_name}/"
   force_destroy = true // prevents DeleteConflict Error
 
@@ -549,7 +541,7 @@ resource "aws_iam_user" "gitlab_mirroring" {
 
 resource "aws_iam_user_policy" "gitlab_mirroring_policy" {
   count = var.enable_gitlab_mirroring ? 1 : 0
-  name  = var.gitlab_mirroring_policy_name
+  name  = "${var.app_name}-${var.gitlab_mirroring_policy_name}"
   user  = aws_iam_user.gitlab_mirroring[0].name
 
 

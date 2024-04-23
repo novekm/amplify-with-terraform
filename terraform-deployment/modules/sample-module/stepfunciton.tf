@@ -12,7 +12,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
   # timeouts {
   #   delete = "20m"
   # }
-  name     = var.sfn_state_machine_name
+  name     = "${var.app_name}-${var.sfn_state_machine_name}"
   role_arn = aws_iam_role.step_functions_master_restricted_access[0].arn
   definition = jsonencode({
     Comment = "A State Machine that processes files with and writes metadata to DynamoDB"
@@ -86,7 +86,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
                 "S.$" = "$.region"
               },
               CurrentBucket = {
-                "S.$" = "States.Format('${aws_s3_bucket.app_storage_bucket.id}')"
+                "S.$" = "States.Format('${aws_s3_bucket.landing_bucket.id}')"
               },
               FileName = {
                 "S.$" = "$.detail.object.key"
@@ -95,7 +95,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               #   "S.$" = "States.Format('{}-{}', $.detail.object.key, $.id)"
               # },
               FilePath = {
-                "S.$" = "States.Format('s3://${aws_s3_bucket.input_bucket.id}/{}-{}', $.detail.object.key, $.id)"
+                "S.$" = "States.Format('s3://${aws_s3_bucket.landing_bucket.id}/{}-{}', $.detail.object.key, $.id)"
               },
               # FilePath = {
               #   "S.$" = "States.Format('s3://${aws_s3_bucket.app_storage_bucket.id}/{}-{}', $.detail.object.key, $.id)"

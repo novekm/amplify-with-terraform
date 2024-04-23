@@ -46,6 +46,15 @@ module "sample-qs" {
       group_membership = ["Standard", "Boop"]
       # group_membership = ["Admin", "Standard"]
     },
+    KevonMayersStandard2 : {
+      username         = "novekm-standard2"
+      given_name       = "Kevon"
+      family_name      = "Mayers"
+      email            = "novekm+app-standard2@amazon.com"
+      email_verified   = true // no touchy
+      group_membership = ["Standard", "Boop"]
+      # group_membership = ["Admin", "Standard"]
+    },
     NarutoUzumaki : {
       username         = "nuzumaki"
       given_name       = "Naruto"

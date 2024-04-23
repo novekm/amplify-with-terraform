@@ -1,6 +1,3 @@
-# TODO - Consider replacing 'Scan' DynamoDB operations with 'Query'
-# https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-dynamodb.html#aws-appsync-resolver-mapping-template-reference-dynamodb-getitem
-# https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#amazon-cognito-user-pools-authorization
 # API Data Source
 resource "aws_appsync_datasource" "appsync_dynamodb_datasource" {
   api_id           = aws_appsync_graphql_api.appsync_graphql_api.id
@@ -15,7 +12,7 @@ resource "aws_appsync_datasource" "appsync_dynamodb_datasource" {
 # API
 resource "aws_appsync_graphql_api" "appsync_graphql_api" {
   authentication_type = "AMAZON_COGNITO_USER_POOLS"
-  name                = var.appsync_graphql_api_name
+  name                = "${var.app_name}-${var.appsync_graphql_api_name}"
 
   user_pool_config {
     aws_region     = data.aws_region.current.name

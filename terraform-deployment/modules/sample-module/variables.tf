@@ -90,7 +90,7 @@ variable "landing_bucket_enable_cors" {
 }
 variable "landing_bucket_create_nuke_everything_lifecycle_config" {
   type        = bool
-  default     = true
+  default     = false
   description = "Conditional create of the lifecycle config to remove all objects from the bucket"
 }
 variable "landing_bucket_days_until_objects_expiration" {
@@ -218,7 +218,7 @@ variable "amplify_app_domain_name" {
 # AppSync - GraphQL
 variable "appsync_graphql_api_name" {
   type    = string
-  default = "sample-graphql-api"
+  default = "graphql-api"
 
 }
 
@@ -226,7 +226,7 @@ variable "appsync_graphql_api_name" {
 # - Step Function -
 variable "sfn_state_machine_name" {
   type        = string
-  default     = "sample-state-machine"
+  default     = "state-machine"
   description = "Name of the state machine used to orchestrate pipeline"
 
 }
