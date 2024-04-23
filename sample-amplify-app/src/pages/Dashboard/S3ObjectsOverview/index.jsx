@@ -27,7 +27,7 @@ export const S3ObjectsOverview = ({ s3Objects, s3ObjectSizeSum }) => {
           <ColumnLayout columns="4" variant="text-grid">
             <div>
               <Box variant="awsui-key-label">S3 Buckets</Box>
-              <CounterLink>4</CounterLink>
+              <CounterLink>1</CounterLink>
             </div>
             <div>
               <Box variant="awsui-key-label">S3 Objects</Box>

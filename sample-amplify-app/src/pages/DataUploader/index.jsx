@@ -166,7 +166,7 @@ const Content = () => {
       const result = await uploadData({
           // key: filename,
           // data: file,
-          key: `input/${files.name}`,
+          key: `${files.name}`,
           data: files,
           contentType: files.type,
           options: {

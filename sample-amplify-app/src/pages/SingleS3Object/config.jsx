@@ -41,6 +41,7 @@ import {
 // // API
 // import { generateClient } from 'aws-amplify/api';
 // import * as queries from '../../../graphql/queries';
+import { getUrl } from 'aws-amplify/storage';
 
 export const PageHeader = ({ buttons, singleS3Object }) => {
   return (
@@ -72,13 +73,46 @@ export const PageHeader = ({ buttons, singleS3Object }) => {
   );
 };
 
-// Content/formatting for the Bittle Device Details table
+// Content/formatting for the Single S3Object Details table
 export const SingleS3ObjectDetailsTableConfig = ({
   isInProgress,
   singleS3Object,
 }) => {
   const s3Data = singleS3Object;
   console.log(s3Data);
+
+
+  const downloadS3File = async ()=>{
+    try {
+      const filename = (s3Data.FileName);
+      let fileNameNoPrefix = s3Data.FileName.replace('public/','');
+      console.log('FILENAME',filename);
+      console.log('FILENAME_NO_PREFIX', fileNameNoPrefix);
+
+      const getUrlResult = await getUrl({
+      key: fileNameNoPrefix,
+      // key: filename,
+      options: {
+        accessLevel: null , // can be 'private', 'protected', or 'guest' but defaults to `guest`
+        // targetIdentityId: 'XXXXXXX', // id of another user, if `accessLevel` is `guest`
+        validateObjectExistence: true,  // defaults to false
+        expiresIn: 20, // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+        useAccelerateEndpoint: false // Whether to use accelerate endpoint. Note: S3 Transfer Acceleration but be enabled for the S3 bucket for this to work.
+      },
+    });
+    console.log('signed URL: ', getUrlResult.url);
+    console.log('signed URL path: ', getUrlResult.url.href);
+    console.log('URL expires at: ', getUrlResult.expiresAt)
+    const signedUrl = getUrlResult.url;
+    window.open(signedUrl, '_blank', 'noopener,noreferrer')
+    // return signedUrl
+
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return (
     <ColumnLayout columns={3} variant="text-grid">
@@ -151,15 +185,15 @@ export const SingleS3ObjectDetailsTableConfig = ({
               Secured
               {/* {singleS3Object.ObjectSize} */}
             </StatusIndicator>
-          ) : (
-            <ProgressBar
-              value={27}
-              label="Status"
-              // description={isInProgress ? 'Update in progress' : undefined}
-              variant="key-value"
-              resultText="Available"
-              status={isInProgress ? 'in-progress' : 'success'}
-            />
+          ) : ( ""
+            // <ProgressBar
+            //   value={27}
+            //   label="Status"
+            //   // description={isInProgress ? 'Update in progress' : undefined}
+            //   variant="key-value"
+            //   resultText="Available"
+            //   status={isInProgress ? 'in-progress' : 'success'}
+            // />
           )}
         </div>
         {/* Second Item */}
@@ -176,6 +210,14 @@ export const SingleS3ObjectDetailsTableConfig = ({
         <div>
           <Box variant="awsui-key-label">Lifecycle Config</Box>
           <div>{singleS3Object.LifecycleConfig}</div>
+        </div>
+        <div>
+          {/* <Box variant="awsui-key-label">Download</Box> */}
+          <div>
+            <Button onClick={() => downloadS3File()}>
+              Download
+            </Button>
+          </div>
         </div>
       </SpaceBetween>
       {/* <div className="VideoStreamContainer">TODO - ADD KINESIS VIDEO HERE</div> */}
