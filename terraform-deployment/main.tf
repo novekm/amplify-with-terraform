@@ -16,14 +16,7 @@ module "sample-qs" {
       name        = "Standard"
       description = "Standard users"
     },
-    Test : {
-      name        = "Test"
-      description = "Test"
-    },
-    Boop : {
-      name        = "Boop"
-      description = "Boop"
-    },
+
   }
 
   cognito_users = {
@@ -34,8 +27,7 @@ module "sample-qs" {
       family_name      = "Mayers"
       email            = "novekm+app-admin@amazon.com"
       email_verified   = true // no touchy
-      group_membership = ["Admin", "Standard", "Test"]
-      # group_membership = ["Admin", "Standard"]
+      group_membership = ["Admin", "Standard"]
     },
     KevonMayersStandard : {
       username         = "novekm-standard"
@@ -43,25 +35,17 @@ module "sample-qs" {
       family_name      = "Mayers"
       email            = "novekm+app-standard@amazon.com"
       email_verified   = true // no touchy
-      group_membership = ["Standard", "Boop"]
-      # group_membership = ["Admin", "Standard"]
+      group_membership = ["Standard"]
     },
-    KevonMayersStandard2 : {
-      username         = "novekm-standard2"
-      given_name       = "Kevon"
-      family_name      = "Mayers"
-      email            = "novekm+app-standard2@amazon.com"
-      email_verified   = true // no touchy
-      group_membership = ["Standard", "Boop"]
-      # group_membership = ["Admin", "Standard"]
-    },
+
+
     NarutoUzumaki : {
       username         = "nuzumaki"
       given_name       = "Naruto"
       family_name      = "Uzumaki"
       email            = "naruto@rasengan.com"
       email_verified   = true // no touchy
-      group_membership = ["Admin", "Standard", "Test"]
+      group_membership = ["Admin", "Standard"]
       # group_membership = ["Admin", "Standard"]
     },
 
@@ -72,7 +56,7 @@ module "sample-qs" {
       family_name      = "Uchiha"
       email            = "sasuke@chidori.com"
       email_verified   = true // no touchy
-      group_membership = ["Standard", "Boop"]
+      group_membership = ["Standard"]
     }
   }
 
