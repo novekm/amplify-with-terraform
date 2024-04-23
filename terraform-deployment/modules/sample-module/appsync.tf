@@ -2,25 +2,25 @@
 # https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-dynamodb.html#aws-appsync-resolver-mapping-template-reference-dynamodb-getitem
 # https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#amazon-cognito-user-pools-authorization
 # API Data Source
-resource "aws_appsync_datasource" "sample_appsync_dynamodb_datasource" {
-  api_id           = aws_appsync_graphql_api.sample_appsync_graphql_api.id
-  name             = "sample_output_dynamodb_datasource"
-  service_role_arn = aws_iam_role.sample_appsync_dynamodb_restricted_access[0].arn
+resource "aws_appsync_datasource" "appsync_dynamodb_datasource" {
+  api_id           = aws_appsync_graphql_api.appsync_graphql_api.id
+  name             = lower("${var.app_name}_output_dynamodb_datasource")
+  service_role_arn = aws_iam_role.appsync_dynamodb_restricted_access[0].arn
   type             = "AMAZON_DYNAMODB"
 
   dynamodb_config {
-    table_name = aws_dynamodb_table.sample_output.name
+    table_name = aws_dynamodb_table.output.name
   }
 }
 # API
-resource "aws_appsync_graphql_api" "sample_appsync_graphql_api" {
+resource "aws_appsync_graphql_api" "appsync_graphql_api" {
   authentication_type = "AMAZON_COGNITO_USER_POOLS"
-  name                = var.sample_appsync_graphql_api_name
+  name                = var.appsync_graphql_api_name
 
   user_pool_config {
     aws_region     = data.aws_region.current.name
     default_action = "ALLOW"
-    user_pool_id   = aws_cognito_user_pool.sample_user_pool.id
+    user_pool_id   = aws_cognito_user_pool.user_pool.id
   }
 
 
@@ -71,11 +71,11 @@ EOF
 # UNIT type resolver (default)
 # Query - Get Object
 # Returns data from one object specificied by 'ObjectId'
-resource "aws_appsync_resolver" "sample_appsync_resolver_query_get_object" {
-  api_id = aws_appsync_graphql_api.sample_appsync_graphql_api.id
-  field  = "getObject"
-  type   = "Query"
-  data_source = aws_appsync_datasource.sample_appsync_dynamodb_datasource.name
+resource "aws_appsync_resolver" "appsync_resolver_query_get_object" {
+  api_id      = aws_appsync_graphql_api.appsync_graphql_api.id
+  field       = "getObject"
+  type        = "Query"
+  data_source = aws_appsync_datasource.appsync_dynamodb_datasource.name
 
   request_template = <<EOF
 {
@@ -94,11 +94,11 @@ EOF
 }
 # Scan - List Objects
 # Returns data for all objects. If no limit is provided, default limit will be 50 items.
-resource "aws_appsync_resolver" "sample_appsync_resolver_query_get_all_objects" {
-  api_id      = aws_appsync_graphql_api.sample_appsync_graphql_api.id
+resource "aws_appsync_resolver" "appsync_resolver_query_get_all_objects" {
+  api_id      = aws_appsync_graphql_api.appsync_graphql_api.id
   field       = "listObjects"
   type        = "Query"
-  data_source = aws_appsync_datasource.sample_appsync_dynamodb_datasource.name
+  data_source = aws_appsync_datasource.appsync_dynamodb_datasource.name
 
   request_template = <<EOF
 
@@ -119,11 +119,11 @@ EOF
 
 
 # Mutation - Delete One Object
-resource "aws_appsync_resolver" "sample_appsync_resolver_mutation_delete_one_object" {
-  api_id      = aws_appsync_graphql_api.sample_appsync_graphql_api.id
+resource "aws_appsync_resolver" "appsync_resolver_mutation_delete_one_object" {
+  api_id      = aws_appsync_graphql_api.appsync_graphql_api.id
   field       = "deleteOneObject"
   type        = "Mutation"
-  data_source = aws_appsync_datasource.sample_appsync_dynamodb_datasource.name
+  data_source = aws_appsync_datasource.appsync_dynamodb_datasource.name
 
   request_template = <<EOF
 {

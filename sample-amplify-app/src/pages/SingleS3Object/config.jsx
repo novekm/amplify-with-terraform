@@ -32,13 +32,15 @@ import {
   SpaceBetween,
   Table,
 } from '@cloudscape-design/components';
-import { API, graphqlOperation, Amplify, Auth, PubSub, Hub } from 'aws-amplify';
+
 import {
   TableEmptyState,
   InfoLink,
 } from '../../common/common-components-config';
 
-import { getObject } from '../../graphql/queries';
+// // API
+// import { generateClient } from 'aws-amplify/api';
+// import * as queries from '../../../graphql/queries';
 
 export const PageHeader = ({ buttons, singleS3Object }) => {
   return (

@@ -27,8 +27,9 @@ import {
   ContentLayout,
 } from '@cloudscape-design/components';
 
-// Amplify
-import { API, graphqlOperation, Amplify, Auth, PubSub, Hub } from 'aws-amplify';
+// API
+import { generateClient } from 'aws-amplify/api';
+import * as queries from '../../graphql/queries';
 
 // Common
 import {
@@ -59,16 +60,20 @@ const SingleS3ObjectPage = () => {
   const { ObjectId } = useParams();
   const [singleS3Object, setSingleS3Object] = useState([]);
 
-  // Fetch data for one bittle by 'DeviceId' specified in browser URL via useParams hook
-  const fetchSingleS3Object = async () => {
+
+  // Instantiate GraphQL client
+  const client = generateClient()
+
+  // Fetch a single S3 Object in the Output DynamoDB Table
+    const fetchSingleS3Object = async () => {
     try {
-      const singleS3ObjectData = await API.graphql(
-        graphqlOperation(getObject, { ObjectId: `${ObjectId}` })
-      );
+      const singleS3ObjectData = await client.graphql({
+        query: queries.getObject,
+        variables: { ObjectId: `${ObjectId}`}
+      });
       const singleS3ObjectDataList = singleS3ObjectData.data.getObject;
       console.log('Single S3 Object List', singleS3ObjectDataList);
       setSingleS3Object(singleS3ObjectDataList);
-      // setLoading(false)
     } catch (error) {
       console.log('error on fetching single s3 object', error);
     }

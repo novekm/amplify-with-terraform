@@ -1,12 +1,24 @@
 # TODO - Update this file to add S3 lifecycle rule for .temp files "/temp"
 # TODO - Create optional S3 Remote State bucket
-resource "random_uuid" "sample_landing_bucket_uuid" {
+resource "random_string" "landing_bucket" {
+  length  = 4
+  special = false
+  upper   = false
 }
-resource "random_uuid" "sample_input_bucket_uuid" {
+resource "random_string" "input_bucket" {
+  length  = 4
+  special = false
+  upper   = false
 }
-resource "random_uuid" "sample_output_bucket_uuid" {
+resource "random_string" "output_bucket" {
+  length  = 4
+  special = false
+  upper   = false
 }
-resource "random_uuid" "sample_app_storage_bucket_uuid" {
+resource "random_string" "app_storage_bucket" {
+  length  = 4
+  special = false
+  upper   = false
 }
 
 # [Notes:]
@@ -25,7 +37,7 @@ resource "random_uuid" "sample_app_storage_bucket_uuid" {
 
 
 # Landing Bucket IAM Policy
-data "aws_iam_policy_document" "sample_landing_bucket_restrict_file_types" {
+data "aws_iam_policy_document" "landing_bucket_restrict_file_types" {
   statement {
     principals {
       type = "AWS"
@@ -37,13 +49,13 @@ data "aws_iam_policy_document" "sample_landing_bucket_restrict_file_types" {
     actions = ["s3:PutObject", "s3:GetObject"]
     # Allows all S3 operations for files matching the below suffixes
     resources = [
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.amr",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.flac",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.mp3",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.mp4",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.ogg",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.webm",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.wav",
+      "${aws_s3_bucket.landing_bucket.arn}/*.amr",
+      "${aws_s3_bucket.landing_bucket.arn}/*.flac",
+      "${aws_s3_bucket.landing_bucket.arn}/*.mp3",
+      "${aws_s3_bucket.landing_bucket.arn}/*.mp4",
+      "${aws_s3_bucket.landing_bucket.arn}/*.ogg",
+      "${aws_s3_bucket.landing_bucket.arn}/*.webm",
+      "${aws_s3_bucket.landing_bucket.arn}/*.wav",
     ]
   }
   statement {
@@ -58,25 +70,25 @@ data "aws_iam_policy_document" "sample_landing_bucket_restrict_file_types" {
     actions = ["s3:PutObject"]
     # Denys all S3 operations for files that do not match the below suffixes
     not_resources = [
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.amr",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.flac",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.mp3",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.mp4",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.ogg",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.webm",
-      "${aws_s3_bucket.sample_landing_bucket.arn}/*.wav",
+      "${aws_s3_bucket.landing_bucket.arn}/*.amr",
+      "${aws_s3_bucket.landing_bucket.arn}/*.flac",
+      "${aws_s3_bucket.landing_bucket.arn}/*.mp3",
+      "${aws_s3_bucket.landing_bucket.arn}/*.mp4",
+      "${aws_s3_bucket.landing_bucket.arn}/*.ogg",
+      "${aws_s3_bucket.landing_bucket.arn}/*.webm",
+      "${aws_s3_bucket.landing_bucket.arn}/*.wav",
     ]
   }
 }
 # Landing S3 Bucket Policy
-resource "aws_s3_bucket_policy" "sample_landing_bucket_restrict_file_types" {
-  count  = var.sample_s3_enable_bucket_policy ? 1 : 0
-  bucket = aws_s3_bucket.sample_landing_bucket.id
-  policy = data.aws_iam_policy_document.sample_landing_bucket_restrict_file_types.json
+resource "aws_s3_bucket_policy" "landing_bucket_restrict_file_types" {
+  count  = var.s3_enable_bucket_policy ? 1 : 0
+  bucket = aws_s3_bucket.landing_bucket.id
+  policy = data.aws_iam_policy_document.landing_bucket_restrict_file_types.json
 }
 
 # Input Bucket IAM Policy
-data "aws_iam_policy_document" "sample_input_bucket_restrict_file_types" {
+data "aws_iam_policy_document" "input_bucket_restrict_file_types" {
   statement {
     principals {
       type = "AWS"
@@ -88,26 +100,26 @@ data "aws_iam_policy_document" "sample_input_bucket_restrict_file_types" {
     actions = ["s3:PutObject", "s3:GetObject"]
     # Allows all S3 operations for files matching the below suffixes
     resources = [
-      "${aws_s3_bucket.sample_input_bucket.arn}/*.amr",
-      "${aws_s3_bucket.sample_input_bucket.arn}/*.flac",
-      "${aws_s3_bucket.sample_input_bucket.arn}/*.mp3",
-      "${aws_s3_bucket.sample_input_bucket.arn}/*.mp4",
-      "${aws_s3_bucket.sample_input_bucket.arn}/*.ogg",
-      "${aws_s3_bucket.sample_input_bucket.arn}/*.webm",
-      "${aws_s3_bucket.sample_input_bucket.arn}/*.wav",
+      "${aws_s3_bucket.input_bucket.arn}/*.amr",
+      "${aws_s3_bucket.input_bucket.arn}/*.flac",
+      "${aws_s3_bucket.input_bucket.arn}/*.mp3",
+      "${aws_s3_bucket.input_bucket.arn}/*.mp4",
+      "${aws_s3_bucket.input_bucket.arn}/*.ogg",
+      "${aws_s3_bucket.input_bucket.arn}/*.webm",
+      "${aws_s3_bucket.input_bucket.arn}/*.wav",
     ]
   }
 }
 
 # Input S3 Bucket Policy
-resource "aws_s3_bucket_policy" "sample_input_bucket_restrict_file_types" {
-  count  = var.sample_s3_enable_bucket_policy ? 1 : 0
-  bucket = aws_s3_bucket.sample_input_bucket.id
-  policy = data.aws_iam_policy_document.sample_input_bucket_restrict_file_types.json
+resource "aws_s3_bucket_policy" "input_bucket_restrict_file_types" {
+  count  = var.s3_enable_bucket_policy ? 1 : 0
+  bucket = aws_s3_bucket.input_bucket.id
+  policy = data.aws_iam_policy_document.input_bucket_restrict_file_types.json
 }
 
 # Output Bucket IAM Policy
-data "aws_iam_policy_document" "sample_output_bucket_restrict_file_types" {
+data "aws_iam_policy_document" "output_bucket_restrict_file_types" {
   statement {
     principals {
       type        = "AWS"
@@ -117,8 +129,8 @@ data "aws_iam_policy_document" "sample_output_bucket_restrict_file_types" {
     actions = ["s3:PutObject", "s3:GetObject"]
     # Allows all S3 operations for files matching the below suffixes
     resources = [
-      "${aws_s3_bucket.sample_output_bucket.arn}/*.json",
-      "${aws_s3_bucket.sample_output_bucket.arn}/*.temp",
+      "${aws_s3_bucket.output_bucket.arn}/*.json",
+      "${aws_s3_bucket.output_bucket.arn}/*.temp",
     ]
   }
   statement {
@@ -133,20 +145,20 @@ data "aws_iam_policy_document" "sample_output_bucket_restrict_file_types" {
     actions = ["s3:PutObject"]
     # Denys all S3 operations for files that do not match the below suffixes
     not_resources = [
-      "${aws_s3_bucket.sample_output_bucket.arn}/*.json",
-      "${aws_s3_bucket.sample_output_bucket.arn}/*.temp",
+      "${aws_s3_bucket.output_bucket.arn}/*.json",
+      "${aws_s3_bucket.output_bucket.arn}/*.temp",
     ]
   }
 }
 # # - Output S3 Bucket Policy -
-resource "aws_s3_bucket_policy" "sample_output_bucket_restrict_file_types" {
-  count  = var.sample_s3_enable_bucket_policy ? 1 : 0
-  bucket = aws_s3_bucket.sample_output_bucket.id
-  policy = data.aws_iam_policy_document.sample_output_bucket_restrict_file_types.json
+resource "aws_s3_bucket_policy" "output_bucket_restrict_file_types" {
+  count  = var.s3_enable_bucket_policy ? 1 : 0
+  bucket = aws_s3_bucket.output_bucket.id
+  policy = data.aws_iam_policy_document.output_bucket_restrict_file_types.json
 }
 
 # - App Storage IAM Policy -
-data "aws_iam_policy_document" "sample_app_storage_bucket_restrict_file_types" {
+data "aws_iam_policy_document" "app_storage_bucket_restrict_file_types" {
   statement {
     principals {
       type        = "AWS"
@@ -156,43 +168,43 @@ data "aws_iam_policy_document" "sample_app_storage_bucket_restrict_file_types" {
     actions = ["s3:PutObject", "s3:GetObject"]
     # Allows all S3 operations for files matching the below suffixes
     resources = [
-      "${aws_s3_bucket.sample_app_storage_bucket.arn}/*.json",
-      "${aws_s3_bucket.sample_app_storage_bucket.arn}/*.amr",
-      "${aws_s3_bucket.sample_app_storage_bucket.arn}/*.flac",
-      "${aws_s3_bucket.sample_app_storage_bucket.arn}/*.mp3",
-      "${aws_s3_bucket.sample_app_storage_bucket.arn}/*.mp4",
-      "${aws_s3_bucket.sample_app_storage_bucket.arn}/*.ogg",
-      "${aws_s3_bucket.sample_app_storage_bucket.arn}/*.webm",
-      "${aws_s3_bucket.sample_app_storage_bucket.arn}/*.wav",
+      "${aws_s3_bucket.app_storage_bucket.arn}/*.json",
+      "${aws_s3_bucket.app_storage_bucket.arn}/*.amr",
+      "${aws_s3_bucket.app_storage_bucket.arn}/*.flac",
+      "${aws_s3_bucket.app_storage_bucket.arn}/*.mp3",
+      "${aws_s3_bucket.app_storage_bucket.arn}/*.mp4",
+      "${aws_s3_bucket.app_storage_bucket.arn}/*.ogg",
+      "${aws_s3_bucket.app_storage_bucket.arn}/*.webm",
+      "${aws_s3_bucket.app_storage_bucket.arn}/*.wav",
     ]
   }
 }
 # # - App Storage S3 Bucket Policy -
-resource "aws_s3_bucket_policy" "sample_app_storage_bucket_restrict_file_types" {
-  count  = var.sample_s3_enable_bucket_policy ? 1 : 0
-  bucket = aws_s3_bucket.sample_app_storage_bucket.id
-  policy = data.aws_iam_policy_document.sample_app_storage_bucket_restrict_file_types.json
+resource "aws_s3_bucket_policy" "app_storage_bucket_restrict_file_types" {
+  count  = var.s3_enable_bucket_policy ? 1 : 0
+  bucket = aws_s3_bucket.app_storage_bucket.id
+  policy = data.aws_iam_policy_document.app_storage_bucket_restrict_file_types.json
 }
 
 # S3 Bucket Notifications -> EventBridge
-resource "aws_s3_bucket_notification" "sample_landing_bucket_events" {
-  bucket = aws_s3_bucket.sample_landing_bucket.id
+resource "aws_s3_bucket_notification" "landing_bucket_events" {
+  bucket = aws_s3_bucket.landing_bucket.id
   # Send all S3 events for this bucket to EventBridge
   eventbridge = true
 }
 # S3 Bucket Notifications -> EventBridge
-resource "aws_s3_bucket_notification" "sample_input_bucket_events" {
-  bucket = aws_s3_bucket.sample_input_bucket.id
+resource "aws_s3_bucket_notification" "input_bucket_events" {
+  bucket = aws_s3_bucket.input_bucket.id
   # Send all S3 events for this bucket to EventBridge
   eventbridge = true
 }
-resource "aws_s3_bucket_notification" "sample_output_bucket_events" {
-  bucket = aws_s3_bucket.sample_output_bucket.id
+resource "aws_s3_bucket_notification" "output_bucket_events" {
+  bucket = aws_s3_bucket.output_bucket.id
   # Send all S3 events for this bucket to EventBridge
   eventbridge = true
 }
-resource "aws_s3_bucket_notification" "sample_app_storage_bucket_events" {
-  bucket = aws_s3_bucket.sample_app_storage_bucket.id
+resource "aws_s3_bucket_notification" "app_storage_bucket_events" {
+  bucket = aws_s3_bucket.app_storage_bucket.id
   # Send all S3 events for this bucket to EventBridge
   eventbridge = true
 }
@@ -203,41 +215,41 @@ resource "aws_s3_bucket_notification" "sample_app_storage_bucket_events" {
 # S3 Output Bucket has the necessary files copied to other S3 buckets automatically.
 # This is handled by Lambda. This lifecycle configuration removes all of the objects
 # in the bucket after 1 day. You can configure the number of days by changing the value
-# for the variable 'sample_output_bucket_days_until_objects_expiration' or disable the
-# lifecycle policy completely by setting 'sample_output_bucket_create_nuke_everything_lifecycle_config'
+# for the variable 'output_bucket_days_until_objects_expiration' or disable the
+# lifecycle policy completely by setting 'output_bucket_create_nuke_everything_lifecycle_config'
 # to false.
-resource "aws_s3_bucket_lifecycle_configuration" "sample_landing_bucket_lifecycle_config" {
-  count  = var.sample_landing_bucket_create_nuke_everything_lifecycle_config ? 1 : 0
-  bucket = aws_s3_bucket.sample_landing_bucket.id
+resource "aws_s3_bucket_lifecycle_configuration" "landing_bucket_lifecycle_config" {
+  count  = var.landing_bucket_create_nuke_everything_lifecycle_config ? 1 : 0
+  bucket = aws_s3_bucket.landing_bucket.id
   rule {
     id = "nuke-everything"
     filter {} // empty filter = rule applies to all objects in the bucket
     expiration {
-      days = var.sample_landing_bucket_days_until_objects_expiration
+      days = var.landing_bucket_days_until_objects_expiration
     }
     status = "Enabled"
   }
 }
-resource "aws_s3_bucket_lifecycle_configuration" "sample_input_bucket_lifecycle_config" {
-  count  = var.sample_input_bucket_create_nuke_everything_lifecycle_config ? 1 : 0
-  bucket = aws_s3_bucket.sample_input_bucket.id
+resource "aws_s3_bucket_lifecycle_configuration" "input_bucket_lifecycle_config" {
+  count  = var.input_bucket_create_nuke_everything_lifecycle_config ? 1 : 0
+  bucket = aws_s3_bucket.input_bucket.id
   rule {
     id = "nuke-everything"
     filter {} // empty filter = rule applies to all objects in the bucket
     expiration {
-      days = var.sample_input_bucket_days_until_objects_expiration
+      days = var.input_bucket_days_until_objects_expiration
     }
     status = "Enabled"
   }
 }
-resource "aws_s3_bucket_lifecycle_configuration" "sample_output_bucket_lifecycle_config" {
-  count  = var.sample_output_bucket_create_nuke_everything_lifecycle_config ? 1 : 0
-  bucket = aws_s3_bucket.sample_output_bucket.id
+resource "aws_s3_bucket_lifecycle_configuration" "output_bucket_lifecycle_config" {
+  count  = var.output_bucket_create_nuke_everything_lifecycle_config ? 1 : 0
+  bucket = aws_s3_bucket.output_bucket.id
   rule {
     id = "nuke-everything"
     filter {} // empty filter = rule applies to all objects in the bucket
     expiration {
-      days = var.sample_output_bucket_days_until_objects_expiration
+      days = var.output_bucket_days_until_objects_expiration
     }
     status = "Enabled"
   }
@@ -245,8 +257,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "sample_output_bucket_lifecycle
 
 # - S3 Buckets -
 # S3 Landing Bucket
-resource "aws_s3_bucket" "sample_landing_bucket" {
-  bucket        = "${var.sample_landing_bucket_name}-${random_uuid.sample_landing_bucket_uuid.result}"
+resource "aws_s3_bucket" "landing_bucket" {
+  bucket        = lower("${var.app_name}-${var.landing_bucket_name}-${random_string.landing_bucket.result}")
   force_destroy = var.s3_enable_force_destroy
 
   tags = merge(
@@ -257,16 +269,16 @@ resource "aws_s3_bucket" "sample_landing_bucket" {
   )
 }
 # S3 Landing Bucket - Block Public Access
-resource "aws_s3_bucket_public_access_block" "sample_landing_bucket_block_public_access" {
-  count               = var.sample_s3_block_public_access ? 1 : 0
-  bucket              = aws_s3_bucket.sample_landing_bucket.id
-  block_public_acls   = var.sample_s3_block_public_acls
-  block_public_policy = var.sample_s3_block_public_policy
+resource "aws_s3_bucket_public_access_block" "landing_bucket_block_public_access" {
+  count               = var.s3_block_public_access ? 1 : 0
+  bucket              = aws_s3_bucket.landing_bucket.id
+  block_public_acls   = var.s3_block_public_acls
+  block_public_policy = var.s3_block_public_policy
 }
 # S3 Landing Bucket - CORS Policy
-resource "aws_s3_bucket_cors_configuration" "sample_landing_bucket_cors" {
-  count  = var.sample_landing_bucket_enable_cors ? 1 : 0
-  bucket = aws_s3_bucket.sample_landing_bucket.id
+resource "aws_s3_bucket_cors_configuration" "landing_bucket_cors" {
+  count  = var.landing_bucket_enable_cors ? 1 : 0
+  bucket = aws_s3_bucket.landing_bucket.id
 
   cors_rule {
     allowed_headers = ["*"]
@@ -282,8 +294,8 @@ resource "aws_s3_bucket_cors_configuration" "sample_landing_bucket_cors" {
 
 }
 # S3 Input Bucket
-resource "aws_s3_bucket" "sample_input_bucket" {
-  bucket        = "${var.sample_input_bucket_name}-${random_uuid.sample_input_bucket_uuid.result}"
+resource "aws_s3_bucket" "input_bucket" {
+  bucket        = lower("${var.input_bucket_name}-${random_string.input_bucket.result}")
   force_destroy = var.s3_enable_force_destroy
 
   tags = merge(
@@ -294,16 +306,16 @@ resource "aws_s3_bucket" "sample_input_bucket" {
   )
 }
 # S3 Input Bucket - Block Public Access
-resource "aws_s3_bucket_public_access_block" "sample_input_bucket_block_public_access" {
-  count               = var.sample_s3_block_public_access ? 1 : 0
-  bucket              = aws_s3_bucket.sample_input_bucket.id
-  block_public_acls   = var.sample_s3_block_public_acls
-  block_public_policy = var.sample_s3_block_public_policy
+resource "aws_s3_bucket_public_access_block" "input_bucket_block_public_access" {
+  count               = var.s3_block_public_access ? 1 : 0
+  bucket              = aws_s3_bucket.input_bucket.id
+  block_public_acls   = var.s3_block_public_acls
+  block_public_policy = var.s3_block_public_policy
 }
 # S3 Input Bucket - CORS Policy
-resource "aws_s3_bucket_cors_configuration" "sample_input_bucket_cors" {
-  count  = var.sample_input_bucket_enable_cors ? 1 : 0
-  bucket = aws_s3_bucket.sample_input_bucket.id
+resource "aws_s3_bucket_cors_configuration" "input_bucket_cors" {
+  count  = var.input_bucket_enable_cors ? 1 : 0
+  bucket = aws_s3_bucket.input_bucket.id
 
   cors_rule {
     allowed_headers = ["*"]
@@ -321,8 +333,8 @@ resource "aws_s3_bucket_cors_configuration" "sample_input_bucket_cors" {
 
 
 # S3 Output Bucket
-resource "aws_s3_bucket" "sample_output_bucket" {
-  bucket        = "${var.sample_output_bucket_name}-${random_uuid.sample_output_bucket_uuid.result}"
+resource "aws_s3_bucket" "output_bucket" {
+  bucket        = lower("${var.output_bucket_name}-${random_string.output_bucket.result}")
   force_destroy = var.s3_enable_force_destroy
 
   tags = merge(
@@ -333,16 +345,16 @@ resource "aws_s3_bucket" "sample_output_bucket" {
   )
 }
 # S3 Output Bucket - Block Public Access
-resource "aws_s3_bucket_public_access_block" "sample_output_bucket_block_public_access" {
-  count               = var.sample_s3_block_public_access ? 1 : 0
-  bucket              = aws_s3_bucket.sample_output_bucket.id
-  block_public_acls   = var.sample_s3_block_public_acls
-  block_public_policy = var.sample_s3_block_public_policy
+resource "aws_s3_bucket_public_access_block" "output_bucket_block_public_access" {
+  count               = var.s3_block_public_access ? 1 : 0
+  bucket              = aws_s3_bucket.output_bucket.id
+  block_public_acls   = var.s3_block_public_acls
+  block_public_policy = var.s3_block_public_policy
 }
 # S3 Output Bucket - CORS Policy
-resource "aws_s3_bucket_cors_configuration" "sample_output_bucket_cors" {
-  count  = var.sample_output_bucket_enable_cors ? 1 : 0
-  bucket = aws_s3_bucket.sample_output_bucket.id
+resource "aws_s3_bucket_cors_configuration" "output_bucket_cors" {
+  count  = var.output_bucket_enable_cors ? 1 : 0
+  bucket = aws_s3_bucket.output_bucket.id
 
   cors_rule {
     allowed_headers = ["*"]
@@ -360,8 +372,8 @@ resource "aws_s3_bucket_cors_configuration" "sample_output_bucket_cors" {
 
 
 # S3 Amplify App Storage Bucket
-resource "aws_s3_bucket" "sample_app_storage_bucket" {
-  bucket        = "${var.sample_app_storage_bucket_name}-${random_uuid.sample_app_storage_bucket_uuid.result}"
+resource "aws_s3_bucket" "app_storage_bucket" {
+  bucket        = lower("${var.app_storage_bucket_name}-${random_string.app_storage_bucket.result}")
   force_destroy = var.s3_enable_force_destroy
 
   tags = merge(
@@ -372,14 +384,14 @@ resource "aws_s3_bucket" "sample_app_storage_bucket" {
   )
 }
 # S3 Amplify App Storage Bucket - Block Public Access
-resource "aws_s3_bucket_public_access_block" "sample_app_storage_bucket_block_public_access" {
-  bucket              = aws_s3_bucket.sample_app_storage_bucket.id
-  block_public_acls   = var.sample_s3_block_public_acls
-  block_public_policy = var.sample_s3_block_public_policy
+resource "aws_s3_bucket_public_access_block" "app_storage_bucket_block_public_access" {
+  bucket              = aws_s3_bucket.app_storage_bucket.id
+  block_public_acls   = var.s3_block_public_acls
+  block_public_policy = var.s3_block_public_policy
 }
 # S3 Amplify App Storage Bucket - CORS Policy
-resource "aws_s3_bucket_cors_configuration" "sample_app_storage_bucket_cors" {
-  bucket = aws_s3_bucket.sample_app_storage_bucket.id
+resource "aws_s3_bucket_cors_configuration" "app_storage_bucket_cors" {
+  bucket = aws_s3_bucket.app_storage_bucket.id
 
   cors_rule {
     allowed_headers = ["*"]

@@ -1,14 +1,14 @@
 # # SNS
-# variable "sample_enable_sns" {
+# variable "enable_sns" {
 #   type        = bool
 #   default     = true
 #   description = "Conditional creation of SNS resources"
 
 # }
-# variable "sample_sns_email_endpoint" {
+# variable "sns_email_endpoint" {
 #   type        = string
 #   default     = null
-#   description = "The Admin email address to be used for SNS subscription. Required if sample_enable_sns is set to 'true'"
+#   description = "The Admin email address to be used for SNS subscription. Required if enable_sns is set to 'true'"
 
 # }
 
@@ -32,24 +32,24 @@ variable "ssm_github_access_token_name" {
 }
 
 # - S3 -
-variable "sample_landing_bucket_name" {
+variable "landing_bucket_name" {
   type        = string
-  default     = "sample-landing-bucket"
+  default     = "landing-bucket"
   description = "Name of the S3 bucket for audio file upload. Max 27 characters"
 }
-variable "sample_input_bucket_name" {
+variable "input_bucket_name" {
   type        = string
-  default     = "sample-input-bucket"
+  default     = "input-bucket"
   description = "Name of the S3 bucket for transcribe job source. Max 27 characters"
 }
-variable "sample_output_bucket_name" {
+variable "output_bucket_name" {
   type        = string
-  default     = "sample-output-bucket"
+  default     = "output-bucket"
   description = "Output bucket for completed transcriptions. Max 27 characters"
 }
-variable "sample_app_storage_bucket_name" {
+variable "app_storage_bucket_name" {
   type        = string
-  default     = "sample-app-storage-bucket"
+  default     = "app-storage-bucket"
   description = "Bucket used for Amplify app storage. Max 27 characters"
 }
 
@@ -58,76 +58,76 @@ variable "s3_enable_force_destroy" {
   default = "true"
 
 }
-variable "sample_s3_enable_bucket_policy" {
+variable "s3_enable_bucket_policy" {
   type        = bool
   default     = true
   description = "Conditional creation of S3 bucket policies"
 
 }
-variable "sample_s3_block_public_access" {
+variable "s3_block_public_access" {
   type        = bool
   default     = true
   description = "Conditional enabling of the block public access S3 feature"
 
 }
-variable "sample_s3_block_public_acls" {
+variable "s3_block_public_acls" {
   type        = bool
   default     = true
   description = "Conditional enabling of the block public ACLs S3 feature"
 
 }
-variable "sample_s3_block_public_policy" {
+variable "s3_block_public_policy" {
   type        = bool
   default     = true
   description = "Conditional enabling of the block public policy S3 feature"
 
 }
-variable "sample_landing_bucket_enable_cors" {
+variable "landing_bucket_enable_cors" {
   type        = bool
   default     = true
   description = "Contiditional enabling of CORS"
 
 }
-variable "sample_landing_bucket_create_nuke_everything_lifecycle_config" {
+variable "landing_bucket_create_nuke_everything_lifecycle_config" {
   type        = bool
   default     = true
   description = "Conditional create of the lifecycle config to remove all objects from the bucket"
 }
-variable "sample_landing_bucket_days_until_objects_expiration" {
+variable "landing_bucket_days_until_objects_expiration" {
   type        = number
   default     = 1
   description = "The number of days until objects in the bucket are deleted"
 }
 
-variable "sample_input_bucket_enable_cors" {
+variable "input_bucket_enable_cors" {
   type        = bool
   default     = true
   description = "Contiditional enabling of CORS"
 
 }
-variable "sample_input_bucket_create_nuke_everything_lifecycle_config" {
+variable "input_bucket_create_nuke_everything_lifecycle_config" {
   type        = bool
   default     = true
   description = "Conditional create of the lifecycle config to remove all objects from the bucket"
 }
-variable "sample_input_bucket_days_until_objects_expiration" {
+variable "input_bucket_days_until_objects_expiration" {
   type        = number
   default     = 1
   description = "The number of days until objects in the bucket are deleted"
 }
-variable "sample_output_bucket_enable_cors" {
+variable "output_bucket_enable_cors" {
   type        = bool
   default     = true
   description = "Contiditional enabling of CORS"
 
 }
-variable "sample_output_bucket_create_nuke_everything_lifecycle_config" {
+variable "output_bucket_create_nuke_everything_lifecycle_config" {
   type        = bool
   default     = true
   description = "Conditional create of the lifecycle config to remove all objects from the bucket"
 
 }
-variable "sample_output_bucket_days_until_objects_expiration" {
+variable "output_bucket_days_until_objects_expiration" {
   type        = number
   default     = 1
   description = "The number of days until objects in the bucket are deleted"
@@ -141,51 +141,51 @@ variable "create_amplify_app" {
 }
 variable "app_name" {
   type        = string
-  default     = "sample-App"
+  default     = "sampleApp"
   description = "The name of the Amplify Application"
 }
-variable "sample_enable_auto_branch_creation" {
+variable "enable_auto_branch_creation" {
   type        = bool
   default     = true
   description = "Enables automated branch creation for the Amplify app"
 
 }
-variable "sample_enable_auto_branch_deletion" {
+variable "enable_auto_branch_deletion" {
   type        = bool
   default     = true
   description = "Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository"
 
 }
-variable "sample_auto_branch_creation_patterns" {
+variable "auto_branch_creation_patterns" {
   type        = list(any)
   default     = ["main", "dev", ]
   description = "Automated branch creation glob patterns for the Amplify app. Ex. feat*/*"
 
 }
-variable "sample_enable_auto_build" {
+variable "enable_auto_build" {
   type        = bool
   default     = true
   description = "Enables auto-building of autocreated branches for the Amplify App."
 
 }
-variable "sample_enable_amplify_app_pr_preview" {
+variable "enable_amplify_app_pr_preview" {
   type        = bool
   default     = false
   description = "Enables pull request previews for the autocreated branch"
 
 }
-variable "sample_enable_performance_mode" {
+variable "enable_performance_mode" {
   type        = bool
   default     = false
   description = "Enables performance mode for the branch. This keeps cache at Edge Locations for up to 10min after changes"
 }
-variable "sample_framework" {
+variable "framework" {
   type        = string
   default     = "React"
   description = "Framework for the autocreated branch"
 
 }
-variable "sample_existing_repo_url" {
+variable "existing_repo_url" {
   type        = string
   default     = null
   description = "URL for the existing repo"
@@ -197,17 +197,17 @@ variable "github_access_token" {
   description = "Optional GitHub access token. Only required if using GitHub repo."
 
 }
-variable "sample_amplify_app_framework" {
+variable "amplify_app_framework" {
   type    = string
   default = "React"
 
 }
-variable "create_sample_amplify_domain_association" {
+variable "create_amplify_domain_association" {
   type    = bool
   default = false
 
 }
-variable "sample_amplify_app_domain_name" {
+variable "amplify_app_domain_name" {
   type        = string
   default     = "example.com"
   description = "The name of your domain. Ex. naruto.ninja"
@@ -216,7 +216,7 @@ variable "sample_amplify_app_domain_name" {
 
 
 # AppSync - GraphQL
-variable "sample_appsync_graphql_api_name" {
+variable "appsync_graphql_api_name" {
   type    = string
   default = "sample-graphql-api"
 
@@ -224,7 +224,7 @@ variable "sample_appsync_graphql_api_name" {
 
 
 # - Step Function -
-variable "sample_sfn_state_machine_name" {
+variable "sfn_state_machine_name" {
   type        = string
   default     = "sample-state-machine"
   description = "Name of the state machine used to orchestrate pipeline"
@@ -250,16 +250,16 @@ variable "dynamodb_ttl_attribute" {
   type    = string
   default = "TimeToExist"
 }
-variable "sample_output_billing_mode" {
+variable "output_billing_mode" {
   type    = string
   default = "PROVISIONED"
 }
-variable "sample_output_read_capacity" {
+variable "output_read_capacity" {
   type    = number
   default = 20
 
 }
-variable "sample_output_write_capacity" {
+variable "output_write_capacity" {
   type    = number
   default = 20
 
@@ -268,32 +268,32 @@ variable "sample_output_write_capacity" {
 
 # - Cognito -
 # User Pool
-variable "sample_user_pool_name" {
+variable "user_pool_name" {
   type        = string
-  default     = "sample_user_pool"
+  default     = "user_pool"
   description = "The name of the Cognito User Pool created"
 }
-variable "sample_user_pool_client_name" {
+variable "user_pool_client_name" {
   type        = string
-  default     = "sample_user_pool_client"
+  default     = "user_pool_client"
   description = "The name of the Cognito User Pool Client created"
 }
-variable "sample_identity_pool_name" {
+variable "identity_pool_name" {
   type        = string
-  default     = "sample_identity_pool"
+  default     = "identity_pool"
   description = "The name of the Cognito Identity Pool created"
 
 }
-variable "sample_identity_pool_allow_unauthenticated_identites" {
+variable "identity_pool_allow_unauthenticated_identites" {
   type    = bool
   default = false
 }
-variable "sample_identity_pool_allow_classic_flow" {
+variable "identity_pool_allow_classic_flow" {
   type    = bool
   default = false
 
 }
-variable "sample_email_verification_message" {
+variable "email_verification_message" {
   type        = string
   default     = <<-EOF
 
@@ -303,12 +303,12 @@ variable "sample_email_verification_message" {
   EOF
   description = "The Cognito email verification message"
 }
-variable "sample_email_verification_subject" {
+variable "email_verification_subject" {
   type        = string
   default     = "Sample App Verification"
   description = "The Cognito email verification subject"
 }
-variable "sample_invite_email_message" {
+variable "invite_email_message" {
   type    = string
   default = <<-EOF
     You have been invited to the Sample App App! Your username is "{username}" and
@@ -317,14 +317,14 @@ variable "sample_invite_email_message" {
   EOF
 
 }
-variable "sample_invite_email_subject" {
+variable "invite_email_subject" {
   type    = string
   default = <<-EOF
   You've been CHOSEN.
   EOF
 
 }
-variable "sample_invite_sms_message" {
+variable "invite_sms_message" {
   type    = string
   default = <<-EOF
     You have been invited to the Sample App! Your username is "{username}" and
@@ -333,51 +333,51 @@ variable "sample_invite_sms_message" {
   EOF
 
 }
-variable "sample_password_policy_min_length" {
+variable "password_policy_min_length" {
   type        = number
   default     = 8
   description = "The minimum nmber of characters for Cognito user passwords"
 }
-variable "sample_password_policy_require_lowercase" {
+variable "password_policy_require_lowercase" {
   type        = bool
   default     = true
   description = "Whether or not the Cognito user password must have at least 1 lowercase character"
 
 }
-variable "sample_password_policy_require_uppercase" {
+variable "password_policy_require_uppercase" {
   type        = bool
   default     = true
   description = "Whether or not the Cognito user password must have at least 1 uppercase character"
 
 }
-variable "sample_password_policy_require_numbers" {
+variable "password_policy_require_numbers" {
   type        = bool
   default     = true
   description = "Whether or not the Cognito user password must have at least 1 number"
 
 }
 
-variable "sample_password_policy_require_symbols" {
+variable "password_policy_require_symbols" {
   type        = bool
   default     = true
   description = "Whether or not the Cognito user password must have at least 1 special character"
 
 }
 
-variable "sample_password_policy_temp_password_validity_days" {
+variable "password_policy_temp_password_validity_days" {
   type        = number
   default     = 7
   description = "The number of days a temp password is valid. If user does not sign-in during this time, will need to be reset by an admin"
 
 }
 # General Schema
-variable "sample_schemas" {
+variable "schemas" {
   description = "A container with the schema attributes of a user pool. Maximum of 50 attributes"
   type        = list(any)
   default     = []
 }
 # Schema (String)
-variable "sample_string_schemas" {
+variable "string_schemas" {
   description = "A container with the string schema attributes of a user pool. Maximum of 50 attributes"
   type        = list(any)
   default = [{
@@ -431,7 +431,7 @@ variable "sample_string_schemas" {
   ]
 }
 # Schema (number)
-variable "sample_number_schemas" {
+variable "number_schemas" {
   description = "A container with the number schema attributes of a user pool. Maximum of 50 attributes"
   type        = list(any)
   default     = []
@@ -444,33 +444,66 @@ variable "sample_number_schemas" {
 
 
 # Admin Users
-variable "sample_admin_cognito_users" {
-  type    = map(any)
-  default = {}
+variable "cognito_groups" {
+  type = map(object({
+    name        = string,
+    description = optional(string, ""),
+    # user_pool_id = optional(string, null)
+  }))
+  description = "Collection of Amazon Cognito User Pool Groups you wish to create."
+  # default     = {}
 
+  # validation {
+  #   condition     = alltrue([for repo in values(var.codecommit_repos) : length(repo.repository_name) > 1 && length(repo.repository_name) <= 100])
+  #   error_message = "The name of one of the defined CodeCodecommit Repositories is too long. Repository names can be a maxmium of 100 characters, as the names are used by other resources throughout this module. This can cause deployment failures for AWS resources with smaller character limits for naming. Please ensure all repository names are 100 characters or less, and try again."
+  # }
 }
-variable "sample_admin_cognito_user_group_name" {
-  type    = string
-  default = "Admin"
+variable "cognito_users" {
+  type = map(object({
+    username         = string,
+    given_name       = string,
+    family_name      = string,
+    email            = string,
+    email_verified   = optional(bool, true),
+    group_membership = optional(list(string), ["admin"])
 
-}
-variable "sample_admin_cognito_user_group_description" {
-  type    = string
-  default = "Admin Group"
+  }))
+  description = "Collection of Amazon Cognito Users you wish to creat."
+  # default     = {}
 
+  # validation {
+  #   condition     = alltrue([for repo in values(var.codecommit_repos) : length(repo.repository_name) > 1 && length(repo.repository_name) <= 100])
+  #   error_message = "The name of one of the defined CodeCodecommit Repositories is too long. Repository names can be a maxmium of 100 characters, as the names are used by other resources throughout this module. This can cause deployment failures for AWS resources with smaller character limits for naming. Please ensure all repository names are 100 characters or less, and try again."
+  # }
 }
+
+# variable "admin_cognito_users" {
+#   type    = map(any)
+#   default = {}
+
+# }
+# variable "admin_cognito_user_group_name" {
+#   type    = string
+#   default = "Admin"
+
+# }
+# variable "admin_cognito_user_group_description" {
+#   type    = string
+#   default = "Admin Group"
+
+# }
 # Standard Users
-variable "sample_standard_cognito_users" {
+variable "standard_cognito_users" {
   type    = map(any)
   default = {}
 
 }
-variable "sample_standard_cognito_user_group_name" {
+variable "standard_cognito_user_group_name" {
   type    = string
   default = "Standard"
 
 }
-variable "sample_standard_cognito_user_group_description" {
+variable "standard_cognito_user_group_description" {
   type    = string
   default = "Standard Group"
 
@@ -478,38 +511,38 @@ variable "sample_standard_cognito_user_group_description" {
 
 # GitLab Mirroring
 
-variable "sample_enable_gitlab_mirroring" {
+variable "enable_gitlab_mirroring" {
   type        = bool
   default     = false
   description = "Enables GitLab mirroring to the option AWS CodeCommit repo."
 }
-variable "sample_gitlab_mirroring_iam_user_name" {
+variable "gitlab_mirroring_iam_user_name" {
   type        = string
-  default     = "sample_gitlab_mirroring"
+  default     = "gitlab_mirroring"
   description = "The IAM Username for the GitLab Mirroring IAM User."
 }
-variable "sample_gitlab_mirroring_policy_name" {
+variable "gitlab_mirroring_policy_name" {
   type        = string
-  default     = "sample_gitlab_mirroring_policy"
+  default     = "gitlab_mirroring_policy"
   description = "The name of the IAM policy attached to the GitLab Mirroring IAM User"
 }
 
 
 
 # CodeCommit
-variable "sample_create_codecommit_repo" {
+variable "create_codecommit_repo" {
   type    = bool
   default = false
 }
-variable "sample_codecommit_repo_name" {
+variable "codecommit_repo_name" {
   type    = string
-  default = "sample_codecommit_repo"
+  default = "codecommit_repo"
 }
-variable "sample_codecommit_repo_description" {
+variable "codecommit_repo_description" {
   type    = string
   default = "The CodeCommit repo created in the sample deployment"
 }
-variable "sample_codecommit_repo_default_branch" {
+variable "codecommit_repo_default_branch" {
   type    = string
   default = "main"
 
@@ -519,36 +552,52 @@ variable "sample_codecommit_repo_default_branch" {
 #  - Step Function -
 # State Management
 # GenerateUUID
-variable "sample_sfn_state_generate_uuid_name" {
+variable "sfn_state_generate_uuid_name" {
   type        = string
   default     = "GenerateUUID"
-  description = "Name for SFN State that generates a UUID that is appended to the object key of the file copied from sample_landing to sample_input bucket"
+  description = "Name for SFN State that generates a UUID that is appended to the object key of the file copied from landing to input bucket"
 
 }
-# variable "sample_sfn_state_generate_uuid_type" {
+# variable "sfn_state_generate_uuid_type" {
 #   type        = string
 #   default     = "Pass"
 #   description = "Pass state type"
 
 # }
-variable "sample_sfn_state_generate_uuid_next_step" {
+variable "sfn_state_generate_uuid_next_step" {
   type    = string
   default = "GetSampleInputFile"
 
 }
 
 # GetInputFile
-variable "create_sample_sfn_state_get_sample_input_file" {
+variable "create_sfn_state_get_input_file" {
   type        = bool
   default     = true
   description = "Enables creation of GetSampleInputFile sfn state"
 
 }
-variable "sample_sfn_state_get_sample_input_file_name" {
+variable "sfn_state_get_input_file_name" {
   type        = string
-  default     = "GetSampleInputFile"
-  description = "Generates a UUID that is appended to the object key of the file copied from sample_landing to sample_input bucket"
+  default     = "GetInputFile"
+  description = "Fetches the file that was uploaded to the S3 Landing Bucket."
 
+}
+
+
+
+
+
+variable "path_to_build_spec" {
+  type        = string
+  default     = null
+  description = "The path to the location of your build_spec file. Use if 'build_spec' is not defined."
+
+}
+variable "build_spec" {
+  type        = string
+  default     = null
+  description = "The actual content of your build_spec. Use if 'path_to_build_spec' is not defined."
 }
 
 variable "tags" {

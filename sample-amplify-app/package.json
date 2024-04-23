@@ -1,5 +1,5 @@
 {
-  "name": "sample-qs",
+  "name": "sample-amplify-app",
   "description": "Sample Amplify Web App with backend resourced managed by Terraform.",
   "private": true,
   "version": "0.0.1",
@@ -13,19 +13,21 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^4.3.9",
+    "@aws-amplify/pubsub": "^6.0.28",
+    "@aws-amplify/ui-react": "^6.1.8",
     "@cloudscape-design/collection-hooks": "^1.0.7",
     "@cloudscape-design/components": "^3.0.45",
     "@cloudscape-design/design-tokens": "^3.0.1",
     "@cloudscape-design/global-styles": "^1.0.1",
     "@cloudscape-design/test-utils-core": "^1.0.1",
     "@cloudscape-design/theming-runtime": "^1.0.2",
-    "aws-amplify": "^5.0.14",
+    "aws-amplify": "^6.0.29",
     "child_process": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "sass": "^1.54.8"
+    "sass": "^1.54.8",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

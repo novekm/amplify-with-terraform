@@ -6,39 +6,30 @@
 /* eslint-disable import/order */
 /** **********************************************************************
                             DISCLAIMER
-
 This is just a playground package. It does not comply with best practices
 of using Cloudscape Design components. For production code, follow the
 integration guidelines:
-
 https://cloudscape.design/patterns/patterns/overview/
 *********************************************************************** */
-
 import React, { useState, useEffect } from 'react';
-
-// import { Link, useNavigate, useParams } from 'react-router-dom';
-// COMPONENT IMPORTS
+// - CLOUDSCAPE -
 import {
   // Alert,
-  // Badge,
   BreadcrumbGroup,
-  // Button,
+  Button,
   // Flashbar,
   AppLayout,
-  // SideNavigation,
-  // Container,
-  // Header,
+  Container,
+  Header,
   HelpPanel,
   Grid,
   Box,
   Icon,
   TextContent,
-  // ContentLayout,
-  // SpaceBetween,
+  ContentLayout,
+  SpaceBetween,
 } from '@cloudscape-design/components';
-// import TopNavigationHeader from '../../common/components/TopNavigationHeader';
-// Common
-// import { useColumnWidths } from '../../common/resources/useColumnWidths';
+// - COMMON -
 import {
   // Notifications,
   ExternalLinkItem,
@@ -46,26 +37,28 @@ import {
 } from '../../common/common-components-config';
 import Sidebar from '../../common/components/Sidebar';
 import { resourcesBreadcrumbs } from './breadcrumbs';
+// - CORE COMPONENTS -
+import { S3ObjectsOverview } from './S3ObjectsOverview';
+import { EmissionsLineChart } from './S3ObjectsLineChart';
+import { EmissionsBarChart } from './S3ObjectsBarChart';
 
+// - STYLES -
 // import '../../common/styles/dashboard.scss';
 import '../../common/styles/intro.scss';
 import '../../common/styles/servicehomepage.scss';
+// - ASSETS -
+import awsLogo from '../../public/images/AWS_logo_RGB_REV.png';
+// - AMPLIFY -
+import { Amplify } from 'aws-amplify';
 
-// NEW
-// import { DashboardHeader, EC2Info } from './Header';
-import { S3ObjectsOverview } from './S3ObjectsOverview';
-import { ServiceHealth } from './ServiceHealth';
-import { EmissionsBarChart } from './S3ObjectsBarChart';
-import { EmissionsLineChart } from './S3ObjectsLineChart';
+import { generateClient } from 'aws-amplify/api'
 import { withAuthenticator } from '@aws-amplify/ui-react';
 
-import awsLogo from '../../public/images/AWS_logo_RGB_REV.png';
+// - API FUNCTIONS -
+import * as queries from '../../graphql/queries';
 
-import { API, graphqlOperation } from 'aws-amplify';
-// import { getOneObject, getAllObjects } from '../../graphql/queries';
-import { getObject, listObjects } from '../../graphql/queries';
 
-const Dashboard = ({ user }) => {
+const Dashboard = ({ user, userAttributes, userInfo }) => {
   return (
     <AppLayout
       breadcrumbs={<Breadcrumbs />}
@@ -74,7 +67,7 @@ const Dashboard = ({ user }) => {
         // <ContentLayout header={<DashboardHeader />}>
         //   <Content />
         // </ContentLayout>
-        <Content user={user} />
+        <Content userInfo={userInfo} userAttributes={userAttributes} user={user} />
       }
       tools={<ToolsContent />}
       headerSelector="#h"
@@ -85,12 +78,31 @@ const Dashboard = ({ user }) => {
 
 export default withAuthenticator(Dashboard);
 
-const Content = ({ user }) => {
+const Content = ({ userInfo, user, isInProgress }) => {
   const [s3Objects, setS3Objects] = useState([]);
 
   useEffect(() => {
     fetchS3Objects();
   }, []);
+
+  // Instantiate GraphQL client
+  const client = generateClient()
+
+  // Fetch all S3 Objects in the Output DynamoDB Table
+    const fetchS3Objects = async () => {
+    try {
+      const s3ObjectData = await client.graphql({
+        query: queries.listObjects,
+        variables: { limit:10000 }
+      });
+      const s3ObjectsDataList = s3ObjectData.data.listObjects.items;
+      console.log('S3 Object List', s3ObjectsDataList);
+      setS3Objects(s3ObjectsDataList);
+    } catch (error) {
+      console.log('error on fetching s3 objects', error);
+    }
+  };
+
 
   // 1. Map through existing 's3ObjectDataList' array and create new array with date properties for filtering
   const dateSeparatedS3Objects = s3Objects.map((s3Object) => ({
@@ -513,18 +525,7 @@ const Content = ({ user }) => {
     filteredS3ObjectsTotalSumGB2022
   );
 
-  const fetchS3Objects = async () => {
-    try {
-      const s3ObjectData = await API.graphql(
-        graphqlOperation(listObjects, { limit: 10000 })
-      );
-      const s3ObjectsDataList = s3ObjectData.data.listObjects.items;
-      console.log('S3 Object List', s3ObjectsDataList);
-      setS3Objects(s3ObjectsDataList);
-    } catch (error) {
-      console.log('error on fetching s3 objects', error);
-    }
-  };
+
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return (
     <>
@@ -569,7 +570,7 @@ const Content = ({ user }) => {
               />
               <div className="custom-home__header-title">
                 <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                  Hello, {user.attributes.given_name} 👋
+                  Hello, {userInfo.given_name} 👋
                 </Box>
                 <Box
                   fontSize="heading-l"

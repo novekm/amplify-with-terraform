@@ -22,8 +22,10 @@ import {
   Table,
 } from '@cloudscape-design/components';
 
-import { API, graphqlOperation } from 'aws-amplify';
-import { listObjects, getObject } from '../../../graphql/queries';
+// API
+import { generateClient } from 'aws-amplify/api';
+import * as queries from '../../../graphql/queries';
+
 
 import { getFilterCounterText } from '../../../common/resources/tableCounterStrings';
 import { FullPageHeader, S3ObjectsTableEmptyState } from '..';
@@ -92,15 +94,20 @@ const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
     fetchS3Objects();
   }, []);
 
-  const fetchS3Objects = async () => {
+
+  // Instantiate GraphQL client
+  const client = generateClient()
+
+  // Fetch all S3 Objects in the Output DynamoDB Table
+    const fetchS3Objects = async () => {
     try {
-      const s3ObjectData = await API.graphql(
-        graphqlOperation(listObjects, { limit: 10000 })
-      );
+      const s3ObjectData = await client.graphql({
+        query: queries.listObjects,
+        variables: { limit:10000 }
+      });
       const s3ObjectsDataList = s3ObjectData.data.listObjects.items;
       console.log('S3 Object List', s3ObjectsDataList);
       setS3Objects(s3ObjectsDataList);
-      setLoading(false);
     } catch (error) {
       console.log('error on fetching s3 objects', error);
     }
