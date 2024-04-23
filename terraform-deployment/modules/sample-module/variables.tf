@@ -1,138 +1,3 @@
-# # SNS
-# variable "enable_sns" {
-#   type        = bool
-#   default     = true
-#   description = "Conditional creation of SNS resources"
-
-# }
-# variable "sns_email_endpoint" {
-#   type        = string
-#   default     = null
-#   description = "The Admin email address to be used for SNS subscription. Required if enable_sns is set to 'true'"
-
-# }
-
-# SSM
-variable "lookup_ssm_github_access_token" {
-  type        = bool
-  default     = false
-  description = <<-EOF
-  *IMPORTANT!*
-  Conditional data fetch of SSM parameter store for GitHub access token.
-  To ensure security of this token, you must manually add it via the AWS console
-  before using.
-  EOF
-
-}
-variable "ssm_github_access_token_name" {
-  type        = string
-  default     = null
-  description = "The name (key) of the SSM parameter store of your GitHub access token"
-
-}
-
-# - S3 -
-variable "landing_bucket_name" {
-  type        = string
-  default     = "landing-bucket"
-  description = "Name of the S3 bucket for audio file upload. Max 27 characters"
-}
-variable "input_bucket_name" {
-  type        = string
-  default     = "input-bucket"
-  description = "Name of the S3 bucket for transcribe job source. Max 27 characters"
-}
-variable "output_bucket_name" {
-  type        = string
-  default     = "output-bucket"
-  description = "Output bucket for completed transcriptions. Max 27 characters"
-}
-variable "app_storage_bucket_name" {
-  type        = string
-  default     = "app-storage-bucket"
-  description = "Bucket used for Amplify app storage. Max 27 characters"
-}
-
-variable "s3_enable_force_destroy" {
-  type    = string
-  default = "true"
-
-}
-variable "s3_enable_bucket_policy" {
-  type        = bool
-  default     = true
-  description = "Conditional creation of S3 bucket policies"
-
-}
-variable "s3_block_public_access" {
-  type        = bool
-  default     = true
-  description = "Conditional enabling of the block public access S3 feature"
-
-}
-variable "s3_block_public_acls" {
-  type        = bool
-  default     = true
-  description = "Conditional enabling of the block public ACLs S3 feature"
-
-}
-variable "s3_block_public_policy" {
-  type        = bool
-  default     = true
-  description = "Conditional enabling of the block public policy S3 feature"
-
-}
-variable "landing_bucket_enable_cors" {
-  type        = bool
-  default     = true
-  description = "Contiditional enabling of CORS"
-
-}
-variable "landing_bucket_create_nuke_everything_lifecycle_config" {
-  type        = bool
-  default     = false
-  description = "Conditional create of the lifecycle config to remove all objects from the bucket"
-}
-variable "landing_bucket_days_until_objects_expiration" {
-  type        = number
-  default     = 1
-  description = "The number of days until objects in the bucket are deleted"
-}
-
-variable "input_bucket_enable_cors" {
-  type        = bool
-  default     = true
-  description = "Contiditional enabling of CORS"
-
-}
-variable "input_bucket_create_nuke_everything_lifecycle_config" {
-  type        = bool
-  default     = true
-  description = "Conditional create of the lifecycle config to remove all objects from the bucket"
-}
-variable "input_bucket_days_until_objects_expiration" {
-  type        = number
-  default     = 1
-  description = "The number of days until objects in the bucket are deleted"
-}
-variable "output_bucket_enable_cors" {
-  type        = bool
-  default     = true
-  description = "Contiditional enabling of CORS"
-
-}
-variable "output_bucket_create_nuke_everything_lifecycle_config" {
-  type        = bool
-  default     = true
-  description = "Conditional create of the lifecycle config to remove all objects from the bucket"
-
-}
-variable "output_bucket_days_until_objects_expiration" {
-  type        = number
-  default     = 1
-  description = "The number of days until objects in the bucket are deleted"
-}
-
 # - Amplify -
 variable "create_amplify_app" {
   type        = bool
@@ -143,6 +8,17 @@ variable "app_name" {
   type        = string
   default     = "sampleApp"
   description = "The name of the Amplify Application"
+}
+variable "path_to_build_spec" {
+  type        = string
+  default     = null
+  description = "The path to the location of your build_spec file. Use if 'build_spec' is not defined."
+
+}
+variable "build_spec" {
+  type        = string
+  default     = null
+  description = "The actual content of your build_spec. Use if 'path_to_build_spec' is not defined."
 }
 variable "enable_auto_branch_creation" {
   type        = bool
@@ -215,57 +91,6 @@ variable "amplify_app_domain_name" {
 }
 
 
-# AppSync - GraphQL
-variable "appsync_graphql_api_name" {
-  type    = string
-  default = "graphql-api"
-
-}
-
-
-# - Step Function -
-variable "sfn_state_machine_name" {
-  type        = string
-  default     = "state-machine"
-  description = "Name of the state machine used to orchestrate pipeline"
-
-}
-
-# - IAM -
-
-variable "create_restricted_access_roles" {
-  type        = bool
-  default     = true
-  description = "Conditional creation of restricted access roles"
-
-}
-
-
-# - DynamoDB -
-variable "dynamodb_ttl_enable" {
-  type    = bool
-  default = false
-}
-variable "dynamodb_ttl_attribute" {
-  type    = string
-  default = "TimeToExist"
-}
-variable "output_billing_mode" {
-  type    = string
-  default = "PROVISIONED"
-}
-variable "output_read_capacity" {
-  type    = number
-  default = 20
-
-}
-variable "output_write_capacity" {
-  type    = number
-  default = 20
-
-}
-
-
 # - Cognito -
 # User Pool
 variable "user_pool_name" {
@@ -320,7 +145,7 @@ variable "invite_email_message" {
 variable "invite_email_subject" {
   type    = string
   default = <<-EOF
-  You've been CHOSEN.
+  Welcome to the Sample App!
   EOF
 
 }
@@ -437,27 +262,17 @@ variable "number_schemas" {
   default     = []
 }
 
-
-
-
-
-
-
-# Admin Users
+# Groups
 variable "cognito_groups" {
   type = map(object({
     name        = string,
     description = optional(string, ""),
-    # user_pool_id = optional(string, null)
   }))
   description = "Collection of Amazon Cognito User Pool Groups you wish to create."
-  # default     = {}
+  default     = {}
 
-  # validation {
-  #   condition     = alltrue([for repo in values(var.codecommit_repos) : length(repo.repository_name) > 1 && length(repo.repository_name) <= 100])
-  #   error_message = "The name of one of the defined CodeCodecommit Repositories is too long. Repository names can be a maxmium of 100 characters, as the names are used by other resources throughout this module. This can cause deployment failures for AWS resources with smaller character limits for naming. Please ensure all repository names are 100 characters or less, and try again."
-  # }
 }
+# Users
 variable "cognito_users" {
   type = map(object({
     username         = string,
@@ -469,86 +284,103 @@ variable "cognito_users" {
 
   }))
   description = "Collection of Amazon Cognito Users you wish to creat."
-  # default     = {}
-
-  # validation {
-  #   condition     = alltrue([for repo in values(var.codecommit_repos) : length(repo.repository_name) > 1 && length(repo.repository_name) <= 100])
-  #   error_message = "The name of one of the defined CodeCodecommit Repositories is too long. Repository names can be a maxmium of 100 characters, as the names are used by other resources throughout this module. This can cause deployment failures for AWS resources with smaller character limits for naming. Please ensure all repository names are 100 characters or less, and try again."
-  # }
+  default     = {}
 }
 
-# variable "admin_cognito_users" {
-#   type    = map(any)
-#   default = {}
 
-# }
-# variable "admin_cognito_user_group_name" {
-#   type    = string
-#   default = "Admin"
-
-# }
-# variable "admin_cognito_user_group_description" {
-#   type    = string
-#   default = "Admin Group"
-
-# }
-# Standard Users
-variable "standard_cognito_users" {
-  type    = map(any)
-  default = {}
-
-}
-variable "standard_cognito_user_group_name" {
+# - AppSync (GraphQL API) -
+variable "appsync_graphql_api_name" {
   type    = string
-  default = "Standard"
-
-}
-variable "standard_cognito_user_group_description" {
-  type    = string
-  default = "Standard Group"
+  default = "graphql-api"
 
 }
 
-# GitLab Mirroring
 
-variable "enable_gitlab_mirroring" {
-  type        = bool
-  default     = false
-  description = "Enables GitLab mirroring to the option AWS CodeCommit repo."
-}
-variable "gitlab_mirroring_iam_user_name" {
-  type        = string
-  default     = "gitlab_mirroring"
-  description = "The IAM Username for the GitLab Mirroring IAM User."
-}
-variable "gitlab_mirroring_policy_name" {
-  type        = string
-  default     = "gitlab_mirroring_policy"
-  description = "The name of the IAM policy attached to the GitLab Mirroring IAM User"
-}
-
-
-
-# CodeCommit
-variable "create_codecommit_repo" {
+# - DynamoDB -
+variable "dynamodb_ttl_enable" {
   type    = bool
   default = false
 }
-variable "codecommit_repo_name" {
+variable "dynamodb_ttl_attribute" {
   type    = string
-  default = "codecommit_repo"
+  default = "TimeToExist"
 }
-variable "codecommit_repo_description" {
+variable "output_billing_mode" {
   type    = string
-  default = "The CodeCommit repo created in the sample deployment"
+  default = "PROVISIONED"
 }
-variable "codecommit_repo_default_branch" {
-  type    = string
-  default = "main"
+variable "output_read_capacity" {
+  type    = number
+  default = 20
+
+}
+variable "output_write_capacity" {
+  type    = number
+  default = 20
 
 }
 
 
+# - S3 -
+variable "landing_bucket_name" {
+  type        = string
+  default     = "landing-bucket"
+  description = "Name of the S3 bucket for audio file upload. Max 27 characters."
+}
+variable "s3_enable_force_destroy" {
+  type    = string
+  default = "true"
+
+}
+variable "s3_enable_bucket_policy" {
+  type        = bool
+  default     = true
+  description = "Conditional creation of S3 bucket policies."
+
+}
+variable "s3_block_public_access" {
+  type        = bool
+  default     = true
+  description = "Conditional enabling of the block public access S3 feature."
+
+}
+variable "s3_block_public_acls" {
+  type        = bool
+  default     = true
+  description = "Conditional enabling of the block public ACLs S3 feature."
+
+}
+variable "s3_block_public_policy" {
+  type        = bool
+  default     = true
+  description = "Conditional enabling of the block public policy S3 feature."
+
+}
+variable "landing_bucket_enable_cors" {
+  type        = bool
+  default     = true
+  description = "Contiditional enabling of CORS."
+
+}
+variable "landing_bucket_create_nuke_everything_lifecycle_config" {
+  type        = bool
+  default     = false
+  description = "Conditional create of the lifecycle config to remove all objects from the bucket."
+}
+variable "landing_bucket_days_until_objects_expiration" {
+  type        = number
+  default     = 1
+  description = "The number of days until objects in the bucket are deleted."
+}
+
+
+# - Step Function -
+variable "sfn_state_machine_name" {
+  type        = string
+  default     = "state-machine"
+  description = "Name of the state machine used to orchestrate pipeline"
+
+}
 #  - Step Function -
 # State Management
 # GenerateUUID
@@ -586,19 +418,73 @@ variable "sfn_state_get_input_file_name" {
 
 
 
-
-
-variable "path_to_build_spec" {
-  type        = string
-  default     = null
-  description = "The path to the location of your build_spec file. Use if 'build_spec' is not defined."
+# - IAM -
+variable "create_restricted_access_roles" {
+  type        = bool
+  default     = true
+  description = "Conditional creation of restricted access roles"
 
 }
-variable "build_spec" {
+
+
+# - SSM -
+variable "lookup_ssm_github_access_token" {
+  type        = bool
+  default     = false
+  description = <<-EOF
+  *IMPORTANT!*
+  Conditional data fetch of SSM parameter store for GitHub access token.
+  To ensure security of this token, you must manually add it via the AWS console
+  before using.
+  EOF
+
+}
+variable "ssm_github_access_token_name" {
   type        = string
   default     = null
-  description = "The actual content of your build_spec. Use if 'path_to_build_spec' is not defined."
+  description = "The name (key) of the SSM parameter store of your GitHub access token."
+
 }
+
+
+# GitLab
+variable "enable_gitlab_mirroring" {
+  type        = bool
+  default     = false
+  description = "Enables GitLab mirroring to the option AWS CodeCommit repo."
+}
+variable "gitlab_mirroring_iam_user_name" {
+  type        = string
+  default     = "gitlab_mirroring"
+  description = "The IAM Username for the GitLab Mirroring IAM User."
+}
+variable "gitlab_mirroring_policy_name" {
+  type        = string
+  default     = "gitlab_mirroring_policy"
+  description = "The name of the IAM policy attached to the GitLab Mirroring IAM User"
+}
+
+
+# CodeCommit
+variable "create_codecommit_repo" {
+  type    = bool
+  default = false
+}
+variable "codecommit_repo_name" {
+  type    = string
+  default = "codecommit_repo"
+}
+variable "codecommit_repo_description" {
+  type    = string
+  default = "The CodeCommit repo created in the sample deployment"
+}
+variable "codecommit_repo_default_branch" {
+  type    = string
+  default = "main"
+
+}
+
+
 
 variable "tags" {
   type        = map(any)
