@@ -26,7 +26,7 @@ resource "aws_amplify_app" "app" {
   iam_service_role_arn = var.create_codecommit_repo ? aws_iam_role.amplify_codecommit[0].arn : null
   access_token         = var.lookup_ssm_github_access_token ? data.aws_ssm_parameter.ssm_github_access_token[0].value : var.github_access_token // optional, only needed if using github repo
 
-  build_spec = var.path_to_build_spec != null ? var.path_to_build_spec : var.build_spec
+  build_spec = var.path_to_build_spec != null ? file("${path.root}/${var.path_to_build_spec}") : file("${path.root}/../amplify.yml")
   # build_spec = file("${path.root}/../amplify.yml")
   # Redirects for Single Page Web Apps (SPA)
   # https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html#redirects-for-single-page-web-apps-spa
