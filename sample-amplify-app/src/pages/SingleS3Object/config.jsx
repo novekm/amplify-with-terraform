@@ -207,15 +207,15 @@ export const SingleS3ObjectDetailsTableConfig = ({
           <div>{singleS3Object.SourceIPAddress}</div>
         </div>
         {/* Third Item */}
-        <div>
+        {/* <div>
           <Box variant="awsui-key-label">Lifecycle Config</Box>
           <div>{singleS3Object.LifecycleConfig}</div>
-        </div>
+        </div> */}
         <div>
           {/* <Box variant="awsui-key-label">Download</Box> */}
           <div>
             <Button onClick={() => downloadS3File()}>
-              Download
+              Download File
             </Button>
           </div>
         </div>
