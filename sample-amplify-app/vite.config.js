@@ -8,7 +8,7 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '',
+  // base: '', - do not include, breaks Amplify Hosting
   build: {
     outDir: './build', // specifies the out directory as build to match react-app specs
   },
